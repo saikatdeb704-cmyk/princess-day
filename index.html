@@ -1,0 +1,2656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy Princess Day, Anupama 👑💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #cce6ff;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    #canvas-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Floating Aerial Couple Title */
+    #aerial-title {
+      position: fixed;
+      top: 38%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.92);
+      z-index: 10;
+      pointer-events: none;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.8s ease, transform 1.1s ease;
+    }
+    #aerial-title.visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    #aerial-title h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.1rem, 4.6vw, 3.8rem);
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 4px 22px rgba(120, 35, 78, 0.7), 0 2px 6px rgba(0, 0, 0, 0.4);
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      white-space: nowrap;
+    }
+    #aerial-title .heart-icon {
+      color: #ff477e;
+      font-size: 0.9em;
+      filter: drop-shadow(0 2px 10px rgba(255, 71, 126, 0.8));
+      animation: pulseHeart 1.3s infinite ease-in-out;
+    }
+    #aerial-title p {
+      font-size: clamp(0.92rem, 1.5vw, 1.15rem);
+      color: #fff7fb;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+      margin-top: 6px;
+      font-weight: 700;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+    }
+
+    @keyframes pulseHeart {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.24); }
+    }
+
+    /* Top Left Memories Pill */
+    #top-left-hud {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .memories-badge {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 175, 206, 0.95);
+      padding: 8px 16px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(180, 60, 110, 0.2);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .memories-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(235, 75, 135, 0.3);
+    }
+    .memories-count {
+      background: linear-gradient(135deg, #ff5c8a, #d9366c);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+    .memories-label {
+      color: #6b2d46;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    /* Top Right Controls */
+    #top-right-hud {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .hud-icon-btn {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 175, 206, 0.95);
+      color: #7a2e4d;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(180, 60, 110, 0.16);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .hud-icon-btn:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(224, 62, 115, 0.28);
+    }
+    .hud-icon-btn.active {
+      background: linear-gradient(135deg, #ff5c8a, #d9366c);
+      color: #fff;
+      border-color: #fff;
+    }
+
+    /* Bottom HUD */
+    #bottom-hud {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      width: 92%;
+      max-width: 560px;
+      pointer-events: none;
+    }
+
+    #subtitle-toast {
+      background: rgba(34, 15, 26, 0.78);
+      backdrop-filter: blur(10px);
+      color: #fff7fa;
+      padding: 9px 20px;
+      border-radius: 20px;
+      font-size: 0.94rem;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.24);
+      border: 1px solid rgba(255, 192, 218, 0.35);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.35s ease;
+    }
+    #subtitle-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .action-btn-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: auto;
+    }
+
+    #primary-action-btn {
+      background: linear-gradient(180deg, #ee5b8e 0%, #d4386c 100%);
+      color: #ffffff;
+      border: 2px solid rgba(255, 232, 242, 0.9);
+      padding: 11px 28px;
+      border-radius: 999px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.98rem;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(212, 56, 108, 0.48), inset 0 1px 2px rgba(255, 255, 255, 0.55);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #primary-action-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(212, 56, 108, 0.65);
+    }
+
+    #scene-steps {
+      display: flex;
+      gap: 6px;
+      pointer-events: auto;
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(10px);
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 182, 209, 0.8);
+      box-shadow: 0 4px 14px rgba(150, 50, 95, 0.14);
+    }
+    .step-dot {
+      width: 29px;
+      height: 29px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(234, 91, 139, 0.14);
+      color: #8c3357;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-dot.active {
+      background: #df3a70;
+      color: #fff;
+      transform: scale(1.14);
+      box-shadow: 0 2px 10px rgba(223, 58, 112, 0.48);
+    }
+    .step-dot:hover:not(.active) {
+      background: rgba(234, 91, 139, 0.34);
+    }
+
+    #controls-hint {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 15;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 7px 13px;
+      border-radius: 14px;
+      font-size: 0.74rem;
+      color: #6b2d46;
+      font-weight: 600;
+      border: 1px solid rgba(255, 182, 209, 0.75);
+      pointer-events: none;
+    }
+    @media (max-width: 780px) {
+      #controls-hint { display: none; }
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(45, 14, 28, 0.45);
+      backdrop-filter: blur(6px);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: linear-gradient(180deg, #fff9fc 0%, #fff0f6 100%);
+      border: 3px solid #ffb8d2;
+      border-radius: 28px;
+      max-width: 490px;
+      width: 100%;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(110, 20, 55, 0.32);
+      position: relative;
+      transform: translateY(18px) scale(0.96);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-height: 86vh;
+      overflow-y: auto;
+    }
+    .modal-backdrop.open .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: #ffe0ec;
+      color: #9e2c59;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .modal-close:hover { background: #ffc8de; }
+
+    .modal-card h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      color: #c92c63;
+      text-align: center;
+      margin-bottom: 6px;
+      font-weight: 400;
+    }
+    .modal-card .subtitle {
+      text-align: center;
+      font-size: 0.88rem;
+      color: #99546f;
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .memory-list { display: flex; flex-direction: column; gap: 12px; }
+    .memory-item {
+      background: #ffffff;
+      border: 1.5px solid #ffd0e2;
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .memory-item.locked { opacity: 0.58; filter: grayscale(0.35); }
+    .memory-icon {
+      font-size: 1.7rem;
+      background: #fff0f6;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .memory-text h4 { color: #7c2448; font-size: 0.96rem; margin-bottom: 3px; }
+    .memory-text p { color: #6b4353; font-size: 0.85rem; line-height: 1.45; }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #7c2448;
+      margin-bottom: 5px;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 9px 13px;
+      border-radius: 12px;
+      border: 1.5px solid #f7b7d0;
+      background: #fff;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.9rem;
+      color: #4a1c2f;
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: #e03e73; }
+    .save-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff5c8a, #d43f70);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 999px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.96rem;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 6px 18px rgba(212, 63, 112, 0.35);
+    }
+
+    /* Signpost Popup */
+    #signpost-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      z-index: 45;
+      background: #fffdf9;
+      border: 4px solid #e6c79c;
+      border-radius: 22px;
+      padding: 24px 28px;
+      max-width: 390px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 18px 50px rgba(60, 30, 15, 0.32);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    #signpost-popup.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    #signpost-popup .sign-emoji { font-size: 2.3rem; margin-bottom: 8px; }
+    #signpost-popup h3 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.1rem;
+      color: #c92c63;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    #signpost-popup p {
+      color: #5c3a47;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    #signpost-popup button {
+      background: #e03e73;
+      color: #fff;
+      border: none;
+      padding: 9px 24px;
+      border-radius: 999px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="canvas-container"></div>
+
+  <div id="aerial-title">
+    <h1>
+      <span id="aerial-her-name">Anupama</span>
+      <span class="heart-icon">♥</span>
+      <span id="aerial-his-name">My Baby</span>
+    </h1>
+    <p id="aerial-subtitle">Happy Princess Day • 18th November</p>
+  </div>
+
+  <div id="top-left-hud">
+    <div class="memories-badge" id="open-memories-btn" title="View unlocked Princess Day memories">
+      <span class="memories-count" id="memories-counter">00</span>
+      <span class="memories-label">Memories 💖</span>
+    </div>
+  </div>
+
+  <div id="top-right-hud">
+    <button class="hud-icon-btn" id="music-toggle-btn" title="Play / Pause I Love You - Akull">
+      <span>🎵</span> <span id="music-btn-label">I Love You • Play</span>
+    </button>
+  </div>
+
+  <div id="bottom-hud">
+    <div id="subtitle-toast" class="show">Walking along the beach to Princess Anupama's Royal Kingdom... 🏖️👑</div>
+    <div class="action-btn-row">
+      <button id="primary-action-btn">
+        <span id="action-btn-text">Walk to the Royal Gate 🏰</span>
+      </button>
+    </div>
+    <div id="scene-steps" title="Jump to any scene">
+      <button class="step-dot active" data-step="0" title="1. Beach Walk">🏖️</button>
+      <button class="step-dot" data-step="1" title="2. Royal Gate">🏰</button>
+      <button class="step-dot" data-step="2" title="3. Aerial Kingdom View">🕊️</button>
+      <button class="step-dot" data-step="3" title="4. Rose Garden">🌹</button>
+      <button class="step-dot" data-step="4" title="5. Magic Dragon">🐉</button>
+      <button class="step-dot" data-step="5" title="6. Royal Coronation Throne">👑</button>
+      <button class="step-dot" data-step="6" title="7. Wishing Well">✨</button>
+    </div>
+  </div>
+
+  <div id="controls-hint">
+    🖱️ Drag to look around • Scroll to zoom • WASD / Arrows to walk • Click wooden signs 📜
+  </div>
+
+  <div id="signpost-popup">
+    <div class="sign-emoji" id="sign-emoji">🌹</div>
+    <h3 id="sign-title">For Princess Anupama</h3>
+    <p id="sign-body"></p>
+    <button id="close-sign-btn">Keep in Heart ♥</button>
+  </div>
+
+  <div class="modal-backdrop" id="memories-modal">
+    <div class="modal-card">
+      <button class="modal-close" id="close-memories-btn">×</button>
+      <h2>Princess Anupama's Memories</h2>
+      <div class="subtitle">Moments collected inside your royal kingdom</div>
+      <div class="memory-list" id="memory-list-container"></div>
+    </div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // ==========================================
+    // 1. STATE & CONFIGURATION
+    // ==========================================
+    const CONFIG = {
+      princessName: 'Anupama',
+      partnerName: 'My Baby',
+      notes: {
+        rose: 'Out of every rose in this royal garden, none blooms half as sweetly as your smile, Anupama. This rose is my promise to keep making you blush every single day, My Baby. 🌹❤️',
+        dragon: 'Even the sleepy pastel dragon wakes up in pure joy when Princess Anupama passes by! You fill every ordinary day with magic and wonder, My Baby. 🐉✨',
+        throne: 'Today I kneel before my forever Queen. You don\'t just wear a crown on Princess Day—you rule my whole heart every single day, Anupama, My Baby. 👑💍',
+        well: 'Standing beside you and our little kitty at this wishing well, I have only one wish: endless laughter and growing old hand-in-hand with you, Anupama, My Baby. 🌟💫'
+      }
+    };
+
+    const MEMORIES = [
+      { id: 'rose', icon: '🌹', title: 'A Rose for Princess Anupama', unlocked: false, getDesc: () => CONFIG.notes.rose },
+      { id: 'dragon', icon: '🐉', title: 'Waking the Guardian Dragon', unlocked: false, getDesc: () => CONFIG.notes.dragon },
+      { id: 'throne', icon: '👑', title: 'Crowned Forever Queen', unlocked: false, getDesc: () => CONFIG.notes.throne },
+      { id: 'well', icon: '✨', title: 'Our Forever Wish at the Well', unlocked: false, getDesc: () => CONFIG.notes.well }
+    ];
+
+    const STORY_STEPS = [
+      {
+        name: 'Beach Walk',
+        couplePos: new THREE.Vector3(0, 0, 39),
+        coupleRot: Math.PI,
+        camPos: new THREE.Vector3(0, 2.25, 33.4),
+        camTarget: new THREE.Vector3(0, 1.38, 39),
+        subtitle: 'Walking hand-in-hand along the beach with our orange kitty on 18th November... 🏖️🐱',
+        btnText: 'Walk to the Royal Gate 🏰',
+        walkAnim: true
+      },
+      {
+        name: 'Royal Gate',
+        couplePos: new THREE.Vector3(0, 0, 25.0),
+        coupleRot: Math.PI,
+        camPos: new THREE.Vector3(0.4, 2.65, 31.2),
+        camTarget: new THREE.Vector3(0, 2.6, 20.5),
+        subtitle: 'Welcome to the Royal Kingdom built only for you, Princess Anupama! 💖',
+        btnText: 'See Full Kingdom View 🕊️',
+        gateOpen: false
+      },
+      {
+        name: 'Aerial Kingdom View',
+        couplePos: new THREE.Vector3(0, 0, 24.5),
+        coupleRot: Math.PI,
+        camPos: new THREE.Vector3(0, 18.0, 42.5),
+        camTarget: new THREE.Vector3(0, 2.5, -3.5),
+        subtitle: 'Anupama ♥ My Baby — Every corner of this kingdom belongs to you 🌸',
+        btnText: 'Open Gates & Visit Rose Garden 🌹',
+        gateOpen: true,
+        showAerialTitle: true
+      },
+      {
+        name: 'Rose Garden',
+        couplePos: new THREE.Vector3(-8.4, 0, 9.8),
+        coupleRot: 0.25,
+        camPos: new THREE.Vector3(-6.2, 2.25, 15.6),
+        camTarget: new THREE.Vector3(-8.0, 1.55, 7.5),
+        subtitle: 'We reached the Rose Garden, My Baby—pick the loveliest rose for Anupama! 🌹',
+        btnText: 'Pick a rose for her 🌹',
+        gateOpen: true,
+        actionType: 'rose'
+      },
+      {
+        name: 'Magic Dragon',
+        couplePos: new THREE.Vector3(-9.0, 0, -2.1),
+        coupleRot: -0.75,
+        camPos: new THREE.Vector3(-5.6, 2.25, 2.8),
+        camTarget: new THREE.Vector3(-11.0, 1.65, -4.0),
+        subtitle: 'Shh... the cute pastel dragon is sleeping by the cherry blossoms! Wake it up 🐉💤',
+        btnText: 'Wake up the magic dragon ✨',
+        gateOpen: true,
+        actionType: 'dragon'
+      },
+      {
+        name: 'Royal Throne',
+        couplePos: new THREE.Vector3(0, 0, -14.2),
+        coupleRot: 0,
+        // Front-right camera angle so kneeling boy (left) and Princess Anupama on throne (center) never overlap!
+        camPos: new THREE.Vector3(1.15, 2.4, -10.1),
+        camTarget: new THREE.Vector3(-0.35, 1.55, -14.8),
+        subtitle: 'Take your seat on the Golden Throne, Anupama—ready for your royal crown! 👑💖',
+        btnText: 'Crown Princess Anupama 👑',
+        gateOpen: true,
+        actionType: 'throne'
+      },
+      {
+        name: 'Wishing Well',
+        couplePos: new THREE.Vector3(9.4, 0, 3.6),
+        coupleRot: 0.72,
+        camPos: new THREE.Vector3(6.2, 2.25, 8.8),
+        camTarget: new THREE.Vector3(10.8, 1.6, 1.8),
+        subtitle: 'Stand together at the glowing Wishing Well and make a wish for us ✨',
+        btnText: 'Make a wish together 🌟',
+        gateOpen: true,
+        actionType: 'well'
+      }
+    ];
+
+    let currentStepIndex = 0;
+    let currentActionCompleted = false;
+    let isFreeRoam = false;
+    let roseGiven = false;
+    let crownGiven = false;
+
+    // ==========================================
+    // 2. RENDERER, SCENE, CAMERA & WARM LIGHTING
+    // ==========================================
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xd2e9ff);
+    scene.fog = new THREE.FogExp2(0xe6f0ff, 0.0048);
+
+    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 280);
+    camera.position.copy(STORY_STEPS[0].camPos);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.06;
+    container.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.maxPolarAngle = Math.PI / 2 - 0.03;
+    controls.minDistance = 2.0;
+    controls.maxDistance = 70;
+    controls.target.copy(STORY_STEPS[0].camTarget);
+
+    // IMPORTANT FIX: Warm peach/cream ground bounce (NO green tint on faces!)
+    const hemiLight = new THREE.HemisphereLight(0xfff9f5, 0xf2dfd3, 1.05);
+    scene.add(hemiLight);
+
+    const sunLight = new THREE.DirectionalLight(0xfff4e6, 1.35);
+    sunLight.position.set(24, 38, 34);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.camera.near = 5;
+    sunLight.shadow.camera.far = 120;
+    const d = 44;
+    sunLight.shadow.camera.left = -d;
+    sunLight.shadow.camera.right = d;
+    sunLight.shadow.camera.top = d;
+    sunLight.shadow.camera.bottom = -d;
+    sunLight.shadow.bias = -0.0005;
+    scene.add(sunLight);
+
+    const frontFillLight = new THREE.DirectionalLight(0xffe9f2, 0.52);
+    frontFillLight.position.set(-18, 12, 28);
+    scene.add(frontFillLight);
+
+    // Pastel Sunset Sky Dome
+    const skyGeo = new THREE.SphereGeometry(190, 32, 24);
+    const skyMat = new THREE.ShaderMaterial({
+      side: THREE.BackSide,
+      uniforms: {
+        topColor: { value: new THREE.Color(0x7cb8f7) },
+        midColor: { value: new THREE.Color(0xd9c2f5) },
+        bottomColor: { value: new THREE.Color(0xffeaf2) }
+      },
+      vertexShader: `
+        varying vec3 vWorldPosition;
+        void main() {
+          vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+          vWorldPosition = worldPosition.xyz;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 topColor;
+        uniform vec3 midColor;
+        uniform vec3 bottomColor;
+        varying vec3 vWorldPosition;
+        void main() {
+          float h = normalize(vWorldPosition).y;
+          vec3 col = mix(bottomColor, midColor, smoothstep(0.0, 0.25, max(h, 0.0)));
+          col = mix(col, topColor, smoothstep(0.25, 0.72, max(h, 0.0)));
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `
+    });
+    scene.add(new THREE.Mesh(skyGeo, skyMat));
+
+    // Fluffy Clouds
+    const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.92 });
+    for (let i = 0; i < 14; i++) {
+      const cg = new THREE.Group();
+      for (let p = 0; p < 4; p++) {
+        const puff = new THREE.Mesh(new THREE.SphereGeometry(2.1 + Math.random() * 1.4, 14, 14), cloudMat);
+        puff.position.set((p - 1.5) * 2.0, Math.random() * 0.5, (Math.random() - 0.5) * 1.1);
+        puff.scale.y = 0.6;
+        cg.add(puff);
+      }
+      const angle = (i / 14) * Math.PI * 2;
+      const rad = 70 + (i % 3) * 18;
+      cg.position.set(Math.cos(angle) * rad, 24 + (i % 4) * 5, Math.sin(angle) * rad);
+      cg.rotation.y = -angle;
+      scene.add(cg);
+    }
+
+    // ==========================================
+    // 3. DETAILED REUSABLE ASSET BUILDERS (ROSES!)
+    // ==========================================
+    const roseRedMat = new THREE.MeshStandardMaterial({ color: 0xd91645, roughness: 0.42 });
+    const roseInnerMat = new THREE.MeshStandardMaterial({ color: 0x9c0a2e, roughness: 0.45 });
+    const roseOuterMat = new THREE.MeshStandardMaterial({ color: 0xf23866, roughness: 0.4 });
+    const stemGreenMat = new THREE.MeshStandardMaterial({ color: 0x2a7a2e, roughness: 0.65 });
+    const leafGreenMat = new THREE.MeshStandardMaterial({ color: 0x38943d, roughness: 0.6, side: THREE.DoubleSide });
+
+    // Detailed Multi-Petal 3D Rose Blossom (NO lollipop spheres!)
+    function createRoseBlossom(scale = 1) {
+      const blossom = new THREE.Group();
+      blossom.scale.setScalar(scale);
+
+      // Tight inner spiral bud
+      const bud = new THREE.Mesh(new THREE.ConeGeometry(0.065, 0.14, 10), roseInnerMat);
+      bud.rotation.x = Math.PI;
+      bud.position.y = 0.04;
+      blossom.add(bud);
+
+      // Inner ring of 5 cupped petals
+      for (let i = 0; i < 5; i++) {
+        const ang = (i / 5) * Math.PI * 2;
+        const petalGeo = new THREE.SphereGeometry(0.075, 10, 8, 0, Math.PI * 0.85, 0, Math.PI * 0.68);
+        const petal = new THREE.Mesh(petalGeo, roseRedMat);
+        petal.position.set(Math.cos(ang) * 0.035, 0.035, Math.sin(ang) * 0.035);
+        petal.rotation.y = -ang + Math.PI / 2;
+        petal.rotation.x = 0.28;
+        blossom.add(petal);
+      }
+
+      // Outer ring of 7 ruffled petals opening outward
+      for (let i = 0; i < 7; i++) {
+        const ang = (i / 7) * Math.PI * 2 + 0.35;
+        const petalGeo = new THREE.SphereGeometry(0.105, 10, 8, 0, Math.PI * 0.9, 0, Math.PI * 0.65);
+        const petal = new THREE.Mesh(petalGeo, roseOuterMat);
+        petal.position.set(Math.cos(ang) * 0.055, 0.02, Math.sin(ang) * 0.055);
+        petal.rotation.y = -ang + Math.PI / 2;
+        petal.rotation.x = 0.55;
+        blossom.add(petal);
+      }
+
+      // Green sepal calyx underneath the bloom
+      for (let s = 0; s < 5; s++) {
+        const ang = (s / 5) * Math.PI * 2;
+        const sepal = new THREE.Mesh(new THREE.ConeGeometry(0.035, 0.11, 5), stemGreenMat);
+        sepal.position.set(Math.cos(ang) * 0.045, -0.02, Math.sin(ang) * 0.045);
+        sepal.rotation.z = -Math.cos(ang) * 1.1;
+        sepal.rotation.x = Math.sin(ang) * 1.1;
+        blossom.add(sepal);
+      }
+
+      return blossom;
+    }
+
+    // Full Single-Stem Rose with Leaves (for handing to Anupama!)
+    function createFullStemRose(scale = 1) {
+      const rg = new THREE.Group();
+      rg.scale.setScalar(scale);
+
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.019, 0.55, 8), stemGreenMat);
+      stem.position.y = 0.275;
+      rg.add(stem);
+
+      // Two curved leaves on stem
+      [-1, 1].forEach((side, idx) => {
+        const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 6), leafGreenMat);
+        leaf.scale.set(1.3, 0.15, 0.65);
+        leaf.position.set(side * 0.065, 0.22 + idx * 0.1, 0);
+        leaf.rotation.z = side * 0.55;
+        rg.add(leaf);
+      });
+
+      const head = createRoseBlossom(1.15);
+      head.position.y = 0.58;
+      head.rotation.x = 0.18;
+      rg.add(head);
+
+      return rg;
+    }
+
+    // ==========================================
+    // 4. TERRAIN, BEACH SHORE & SEAMLESS OCEAN
+    // ==========================================
+    const lawnMat = new THREE.MeshStandardMaterial({ color: 0x77cc55, roughness: 0.88 });
+    const lawnMesh = new THREE.Mesh(new THREE.BoxGeometry(54, 1.8, 44), lawnMat);
+    lawnMesh.position.set(0, -0.9, -1.0);
+    lawnMesh.receiveShadow = true;
+    scene.add(lawnMesh);
+
+    // Smoothly beveled Sandy Beach Island (no harsh flat cutoff!)
+    const sandMat = new THREE.MeshStandardMaterial({ color: 0xf4dec0, roughness: 0.92 });
+    const beachSlope = new THREE.Mesh(new THREE.CylinderGeometry(45, 58, 2.2, 64), sandMat);
+    beachSlope.position.set(0, -1.12, 10);
+    beachSlope.receiveShadow = true;
+    scene.add(beachSlope);
+
+    // Warm Cream Cobble Paths
+    const pathMat = new THREE.MeshStandardMaterial({ color: 0xf6ebd8, roughness: 0.86 });
+    const entrancePath = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.08, 34), pathMat);
+    entrancePath.position.set(0, 0.02, 19);
+    entrancePath.receiveShadow = true;
+    scene.add(entrancePath);
+
+    const plazaMesh = new THREE.Mesh(new THREE.CylinderGeometry(7.2, 7.2, 0.09, 40), pathMat);
+    plazaMesh.position.set(0, 0.025, 1.5);
+    plazaMesh.receiveShadow = true;
+    scene.add(plazaMesh);
+
+    // Inner circular flower bed in center plaza
+    const innerBedBorder = new THREE.Mesh(
+      new THREE.CylinderGeometry(3.2, 3.3, 0.24, 36),
+      new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.65 })
+    );
+    innerBedBorder.position.set(0, 0.08, 1.5);
+    scene.add(innerBedBorder);
+
+    const innerBedGrass = new THREE.Mesh(
+      new THREE.CylinderGeometry(2.95, 2.95, 0.28, 36),
+      new THREE.MeshStandardMaterial({ color: 0x72c850, roughness: 0.85 })
+    );
+    innerBedGrass.position.set(0, 0.1, 1.5);
+    scene.add(innerBedGrass);
+
+    // Decorative flowers inside central plaza bed
+    for (let f = 0; f < 10; f++) {
+      const ang = (f / 10) * Math.PI * 2;
+      const r = 1.8;
+      const fl = createRoseBlossom(1.25);
+      fl.position.set(Math.cos(ang) * r, 0.3, 1.5 + Math.sin(ang) * r);
+      scene.add(fl);
+    }
+
+    const castlePath = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.08, 14), pathMat);
+    castlePath.position.set(0, 0.02, -8.0);
+    castlePath.receiveShadow = true;
+    scene.add(castlePath);
+
+    const leftPath = new THREE.Mesh(new THREE.BoxGeometry(14, 0.08, 2.6), pathMat);
+    leftPath.position.set(-7.5, 0.02, 4.5);
+    leftPath.rotation.y = 0.35;
+    leftPath.receiveShadow = true;
+    scene.add(leftPath);
+
+    const rightPath = new THREE.Mesh(new THREE.BoxGeometry(15, 0.08, 2.6), pathMat);
+    rightPath.position.set(8.2, 0.02, 5.2);
+    rightPath.rotation.y = -0.32;
+    rightPath.receiveShadow = true;
+    scene.add(rightPath);
+
+    // Seamless Animated Ocean Water around the sandy shore
+    const oceanGeo = new THREE.PlaneGeometry(360, 360, 100, 100);
+    oceanGeo.rotateX(-Math.PI / 2);
+    const oceanMat = new THREE.ShaderMaterial({
+      transparent: true,
+      uniforms: {
+        uTime: { value: 0 },
+        shallowColor: { value: new THREE.Color(0x6fe3da) },
+        deepColor: { value: new THREE.Color(0x3a95d1) },
+        foamColor: { value: new THREE.Color(0xffffff) }
+      },
+      vertexShader: `
+        uniform float uTime;
+        varying vec3 vWorldPos;
+        void main() {
+          vec3 pos = position;
+          vec4 worldPosition = modelMatrix * vec4(pos, 1.0);
+          float wave = sin(worldPosition.x * 0.16 + uTime * 1.8) * 0.09
+                     + cos(worldPosition.z * 0.2 + uTime * 1.5) * 0.09;
+          pos.y += wave;
+          vWorldPos = (modelMatrix * vec4(pos, 1.0)).xyz;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        uniform vec3 shallowColor;
+        uniform vec3 deepColor;
+        uniform vec3 foamColor;
+        varying vec3 vWorldPos;
+        void main() {
+          float distFromCenter = length(vWorldPos.xz - vec2(0.0, 10.0));
+          float shoreFactor = smoothstep(48.0, 88.0, distFromCenter);
+          vec3 waterCol = mix(shallowColor, deepColor, shoreFactor);
+          float ripple = sin(vWorldPos.x * 0.4 + uTime * 1.4) * cos(vWorldPos.z * 0.4 - uTime * 1.1);
+          float shimmer = smoothstep(0.55, 0.95, ripple) * 0.14;
+          float shoreFoam = (1.0 - smoothstep(47.0, 52.5, distFromCenter)) * (0.35 + 0.25 * sin(distFromCenter * 1.8 - uTime * 2.2));
+          vec3 finalCol = mix(waterCol + vec3(shimmer), foamColor, clamp(shoreFoam, 0.0, 0.45));
+          float alpha = mix(0.62, 0.94, shoreFactor);
+          gl_FragColor = vec4(finalCol, alpha);
+        }
+      `
+    });
+    const oceanMesh = new THREE.Mesh(oceanGeo, oceanMat);
+    oceanMesh.position.y = -0.35;
+    scene.add(oceanMesh);
+
+    // ==========================================
+    // 5. SWAYING INSTANCED GRASS
+    // ==========================================
+    const GRASS_COUNT = 10000;
+    const bladeGeo = new THREE.ConeGeometry(0.105, 0.72, 4);
+    bladeGeo.translate(0, 0.36, 0);
+
+    const grassMat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        bottomCol: { value: new THREE.Color(0x479e27) },
+        topCol: { value: new THREE.Color(0xa2e864) }
+      },
+      vertexShader: `
+        uniform float uTime;
+        varying float vHeight;
+        void main() {
+          vHeight = clamp(position.y / 0.72, 0.0, 1.0);
+          vec4 worldPos = instanceMatrix * vec4(position, 1.0);
+          float sway = sin(uTime * 2.4 + worldPos.x * 0.7 + worldPos.z * 0.7) * 0.13 * vHeight * vHeight;
+          worldPos.x += sway;
+          worldPos.z += sway * 0.5;
+          gl_Position = projectionMatrix * viewMatrix * worldPos;
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 bottomCol;
+        uniform vec3 topCol;
+        varying float vHeight;
+        void main() {
+          gl_FragColor = vec4(mix(bottomCol, topCol, vHeight), 1.0);
+        }
+      `
+    });
+
+    const grassInstanced = new THREE.InstancedMesh(bladeGeo, grassMat, GRASS_COUNT);
+    const dummy = new THREE.Object3D();
+    let placed = 0;
+
+    function isOnPathOrStructure(x, z) {
+      if (Math.abs(x) < 2.6 && z > -16 && z < 36) return true;
+      const distPlaza = Math.hypot(x, z - 1.5);
+      if (distPlaza > 2.6 && distPlaza < 7.5) return true;
+      if (z < -11.0 && Math.abs(x) < 18) return true;
+      if (Math.hypot(x - 14.5, z - 11.5) < 4.8) return true;
+      if (Math.hypot(x + 11.5, z + 4.2) < 3.4) return true;
+      if (Math.hypot(x - 11.5, z - 1.5) < 3.1) return true;
+      return false;
+    }
+
+    for (let i = 0; i < GRASS_COUNT * 2 && placed < GRASS_COUNT; i++) {
+      const gx = (Math.random() - 0.5) * 50;
+      const gz = -18 + Math.random() * 39;
+      if (isOnPathOrStructure(gx, gz)) continue;
+      dummy.position.set(gx, 0, gz);
+      dummy.rotation.set((Math.random() - 0.5) * 0.18, Math.random() * Math.PI * 2, (Math.random() - 0.5) * 0.18);
+      const s = 0.72 + Math.random() * 0.78;
+      dummy.scale.set(s, s * (0.8 + Math.random() * 0.4), s);
+      dummy.updateMatrix();
+      grassInstanced.setMatrixAt(placed++, dummy.matrix);
+    }
+    grassInstanced.count = placed;
+    scene.add(grassInstanced);
+
+    // ==========================================
+    // 6. DETAILED FAIRY-TALE CASTLE (Proper Arches, Windows, Balconies & Gold Finials!)
+    // ==========================================
+    const castleGroup = new THREE.Group();
+    castleGroup.position.set(0, 0, -21.5);
+    scene.add(castleGroup);
+
+    const wallMat = new THREE.MeshStandardMaterial({ color: 0xfff6ee, roughness: 0.72 });
+    const stoneTrimMat = new THREE.MeshStandardMaterial({ color: 0xf0e1d6, roughness: 0.65 });
+    const pinkRoofMat = new THREE.MeshStandardMaterial({ color: 0xf48fb1, roughness: 0.52 });
+    const darkPinkMat = new THREE.MeshStandardMaterial({ color: 0xd94c82, roughness: 0.5 });
+    const goldMat = new THREE.MeshStandardMaterial({ color: 0xffcf40, roughness: 0.28, metalness: 0.65 });
+    const doorWoodMat = new THREE.MeshStandardMaterial({ color: 0x6b2246, roughness: 0.62 });
+    const windowGlassMat = new THREE.MeshStandardMaterial({ color: 0x3b2c4a, roughness: 0.25, metalness: 0.2 });
+
+    function createArchedWindow(x, y, z, scale = 1) {
+      const wg = new THREE.Group();
+      wg.position.set(x, y, z);
+      wg.scale.setScalar(scale);
+
+      const frame = new THREE.Mesh(new THREE.BoxGeometry(0.95, 1.35, 0.14), stoneTrimMat);
+      wg.add(frame);
+
+      const topFrame = new THREE.Mesh(new THREE.CylinderGeometry(0.475, 0.475, 0.14, 16), stoneTrimMat);
+      topFrame.rotation.x = Math.PI / 2;
+      topFrame.position.y = 0.675;
+      wg.add(topFrame);
+
+      const glass = new THREE.Mesh(new THREE.BoxGeometry(0.72, 1.15, 0.16), windowGlassMat);
+      wg.add(glass);
+
+      const topGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.16, 16), windowGlassMat);
+      topGlass.rotation.x = Math.PI / 2;
+      topGlass.position.y = 0.575;
+      wg.add(topGlass);
+
+      // Cross muntin bars
+      const vBar = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.5, 0.18), stoneTrimMat);
+      vBar.position.y = 0.18;
+      wg.add(vBar);
+      const hBar = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.06, 0.18), stoneTrimMat);
+      hBar.position.y = 0.15;
+      wg.add(hBar);
+
+      // Sill
+      const sill = new THREE.Mesh(new THREE.BoxGeometry(1.12, 0.14, 0.28), stoneTrimMat);
+      sill.position.y = -0.7;
+      wg.add(sill);
+
+      return wg;
+    }
+
+    function createTower(radius, height, roofHeight, x, z, hasFlag = true) {
+      const tg = new THREE.Group();
+      tg.position.set(x, 0, z);
+
+      const body = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius * 1.05, height, 32), wallMat);
+      body.position.y = height / 2;
+      body.castShadow = true;
+      body.receiveShadow = true;
+      tg.add(body);
+
+      // Decorative stone base & mid bands
+      const baseRing = new THREE.Mesh(new THREE.CylinderGeometry(radius * 1.09, radius * 1.12, 1.1, 32), stoneTrimMat);
+      baseRing.position.y = 0.55;
+      tg.add(baseRing);
+
+      const midRing = new THREE.Mesh(new THREE.CylinderGeometry(radius * 1.06, radius * 1.06, 0.32, 32), stoneTrimMat);
+      midRing.position.y = height * 0.55;
+      tg.add(midRing);
+
+      // Battlement corbel ring under roof
+      const topRing = new THREE.Mesh(new THREE.CylinderGeometry(radius * 1.14, radius * 1.08, 0.52, 32), darkPinkMat);
+      topRing.position.y = height - 0.22;
+      tg.add(topRing);
+
+      // Conical pink roof
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(radius * 1.32, roofHeight, 32), pinkRoofMat);
+      roof.position.y = height + roofHeight / 2;
+      roof.castShadow = true;
+      tg.add(roof);
+
+      // Gold spire finial
+      const finialOrb = new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 12), goldMat);
+      finialOrb.position.y = height + roofHeight + 0.1;
+      tg.add(finialOrb);
+
+      if (hasFlag) {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 1.85, 8), goldMat);
+        pole.position.y = height + roofHeight + 1.0;
+        tg.add(pole);
+
+        const flag = new THREE.Mesh(new THREE.ConeGeometry(0.38, 0.95, 3), darkPinkMat);
+        flag.rotation.z = -Math.PI / 2;
+        flag.position.set(0.48, height + roofHeight + 1.6, 0);
+        tg.add(flag);
+      }
+
+      // Arched Windows facing front
+      tg.add(createArchedWindow(0, height * 0.38, radius * 0.96, 0.78));
+      tg.add(createArchedWindow(0, height * 0.74, radius * 0.96, 0.78));
+
+      return tg;
+    }
+
+    // Main Castle Keep & Side Wings
+    const mainHall = new THREE.Mesh(new THREE.BoxGeometry(14, 10.8, 8.2), wallMat);
+    mainHall.position.set(0, 5.4, 0);
+    mainHall.castShadow = true;
+    mainHall.receiveShadow = true;
+    castleGroup.add(mainHall);
+
+    // Castle parapet battlements on top of keep
+    for (let b = -6; b <= 6; b += 1.5) {
+      const merlon = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.85, 0.6), stoneTrimMat);
+      merlon.position.set(b, 11.2, 3.85);
+      castleGroup.add(merlon);
+    }
+
+    const leftWing = new THREE.Mesh(new THREE.BoxGeometry(8.5, 7.6, 6.5), wallMat);
+    leftWing.position.set(-10.2, 3.8, 0.6);
+    leftWing.castShadow = true;
+    castleGroup.add(leftWing);
+
+    const rightWing = new THREE.Mesh(new THREE.BoxGeometry(8.5, 7.6, 6.5), wallMat);
+    rightWing.position.set(10.2, 3.8, 0.6);
+    rightWing.castShadow = true;
+    castleGroup.add(rightWing);
+
+    // Side Wing Windows
+    castleGroup.add(createArchedWindow(-10.2, 4.6, 3.88, 0.95));
+    castleGroup.add(createArchedWindow(10.2, 4.6, 3.88, 0.95));
+
+    // Towers
+    castleGroup.add(createTower(2.5, 14.5, 6.4, -4.3, 2.3, true));
+    castleGroup.add(createTower(2.5, 14.5, 6.4, 4.3, 2.3, true));
+    castleGroup.add(createTower(3.2, 18.2, 7.8, 0, -2.2, true));
+    castleGroup.add(createTower(2.2, 10.6, 4.9, -13.8, 2.6, true));
+    castleGroup.add(createTower(2.2, 10.6, 4.9, 13.8, 2.6, true));
+    castleGroup.add(createTower(1.8, 12.2, 4.6, -8.3, -1.6, false));
+    castleGroup.add(createTower(1.8, 12.2, 4.6, 8.3, -1.6, false));
+
+    // FIXED Castle Entrance Archway (Clean stone arch pillars + arch ring + double wood doors — NO giant flat yellow circle!)
+    const doorFrameGroup = new THREE.Group();
+    doorFrameGroup.position.set(0, 0, 4.15);
+    castleGroup.add(doorFrameGroup);
+
+    // Double dark plum royal doors
+    const leftDoor = new THREE.Mesh(new THREE.BoxGeometry(1.9, 4.3, 0.25), doorWoodMat);
+    leftDoor.position.set(-0.98, 2.15, 0);
+    doorFrameGroup.add(leftDoor);
+
+    const rightDoor = new THREE.Mesh(new THREE.BoxGeometry(1.9, 4.3, 0.25), doorWoodMat);
+    rightDoor.position.set(0.98, 2.15, 0);
+    doorFrameGroup.add(rightDoor);
+
+    // Door arch top (matches door color, recessed neatly inside stone arch!)
+    const doorTopFill = new THREE.Mesh(new THREE.CylinderGeometry(1.92, 1.92, 0.24, 24, 1, false, 0, Math.PI), doorWoodMat);
+    doorTopFill.rotation.z = Math.PI / 2;
+    doorTopFill.rotation.y = Math.PI / 2;
+    doorTopFill.position.set(0, 4.28, 0);
+    doorFrameGroup.add(doorTopFill);
+
+    // Golden Ring Door Handles
+    [-0.25, 0.25].forEach((hx) => {
+      const handle = new THREE.Mesh(new THREE.TorusGeometry(0.14, 0.035, 8, 16), goldMat);
+      handle.position.set(hx, 2.1, 0.16);
+      doorFrameGroup.add(handle);
+    });
+
+    // Clean Stone + Gold Trim Arch Pillars framing the doorway
+    [-2.15, 2.15].forEach((px) => {
+      const jamb = new THREE.Mesh(new THREE.BoxGeometry(0.5, 4.4, 0.55), stoneTrimMat);
+      jamb.position.set(px, 2.2, 0.08);
+      doorFrameGroup.add(jamb);
+    });
+    const archCurve = new THREE.Mesh(new THREE.TorusGeometry(2.15, 0.26, 12, 28, Math.PI), goldMat);
+    archCurve.position.set(0, 4.3, 0.1);
+    doorFrameGroup.add(archCurve);
+
+    // Royal Crest & Balcony above Castle Doors
+    const balconyDeck = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.35, 1.2), stoneTrimMat);
+    balconyDeck.position.set(0, 6.9, 4.4);
+    castleGroup.add(balconyDeck);
+
+    const shieldGold = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 0.75, 0.22, 6), goldMat);
+    shieldGold.rotation.x = Math.PI / 2;
+    shieldGold.position.set(0, 8.6, 4.18);
+    castleGroup.add(shieldGold);
+
+    const shieldPink = new THREE.Mesh(new THREE.CylinderGeometry(0.86, 0.6, 0.26, 6), darkPinkMat);
+    shieldPink.rotation.x = Math.PI / 2;
+    shieldPink.position.set(0, 8.6, 4.2);
+    castleGroup.add(shieldPink);
+
+    // ==========================================
+    // 7. ROYAL CORONATION THRONE STAGE (00:10 - 00:11)
+    // ==========================================
+    const throneGroup = new THREE.Group();
+    throneGroup.position.set(0, 0, -14.8);
+    scene.add(throneGroup);
+
+    const marbleMat = new THREE.MeshStandardMaterial({ color: 0xfbf8ff, roughness: 0.32 });
+    const velvetPinkMat = new THREE.MeshStandardMaterial({ color: 0xe64e83, roughness: 0.6 });
+
+    const daisBottom = new THREE.Mesh(new THREE.CylinderGeometry(3.8, 4.0, 0.25, 40), marbleMat);
+    daisBottom.position.y = 0.125;
+    daisBottom.receiveShadow = true;
+    throneGroup.add(daisBottom);
+
+    const daisTop = new THREE.Mesh(new THREE.CylinderGeometry(3.05, 3.2, 0.25, 40), marbleMat);
+    daisTop.position.y = 0.375;
+    daisTop.receiveShadow = true;
+    throneGroup.add(daisTop);
+
+    // Royal pink carpet runner leading up onto the dais
+    const carpet = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.04, 5.2), velvetPinkMat);
+    carpet.position.set(0, 0.51, 1.2);
+    throneGroup.add(carpet);
+
+    // Golden Throne Chair
+    const chairGroup = new THREE.Group();
+    chairGroup.position.set(0, 0.5, -0.45);
+    throneGroup.add(chairGroup);
+
+    const seatBase = new THREE.Mesh(new THREE.BoxGeometry(1.48, 0.44, 1.25), goldMat);
+    seatBase.position.y = 0.22;
+    chairGroup.add(seatBase);
+
+    const seatCushion = new THREE.Mesh(new THREE.BoxGeometry(1.32, 0.2, 1.15), velvetPinkMat);
+    seatCushion.position.y = 0.5;
+    chairGroup.add(seatCushion);
+
+    const backRest = new THREE.Mesh(new THREE.BoxGeometry(1.36, 2.15, 0.24), goldMat);
+    backRest.position.set(0, 1.45, -0.52);
+    chairGroup.add(backRest);
+
+    const backCushion = new THREE.Mesh(new THREE.BoxGeometry(1.06, 1.75, 0.18), velvetPinkMat);
+    backCushion.position.set(0, 1.45, -0.4);
+    chairGroup.add(backCushion);
+
+    const topRing = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.085, 12, 28), goldMat);
+    topRing.position.set(0, 2.75, -0.52);
+    chairGroup.add(topRing);
+
+    const throneGem = new THREE.Mesh(new THREE.OctahedronGeometry(0.16, 0), roseRedMat);
+    throneGem.position.set(0, 2.75, -0.52);
+    chairGroup.add(throneGem);
+
+    [-0.7, 0.7].forEach((ax) => {
+      const arm = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.55, 1.22), goldMat);
+      arm.position.set(ax, 0.72, 0);
+      chairGroup.add(arm);
+    });
+
+    // Side Pillow Pedestal (right of throne)
+    const pedGroup = new THREE.Group();
+    pedGroup.position.set(1.65, 0.5, 0.4);
+    throneGroup.add(pedGroup);
+
+    const pedPillar = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.36, 1.0, 20), marbleMat);
+    pedPillar.position.y = 0.5;
+    pedGroup.add(pedPillar);
+
+    const pedTrim = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.08, 0.76), goldMat);
+    pedTrim.position.y = 1.02;
+    pedGroup.add(pedTrim);
+
+    const pedPillow = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.18, 0.68), velvetPinkMat);
+    pedPillow.position.y = 1.13;
+    pedGroup.add(pedPillow);
+
+    // ==========================================
+    // 8. ROYAL GATE & FENCE ("Welcome Princess Anupama")
+    // ==========================================
+    const gateSystem = new THREE.Group();
+    gateSystem.position.set(0, 0, 21.5);
+    scene.add(gateSystem);
+
+    const whiteStoneMat = new THREE.MeshStandardMaterial({ color: 0xfbf8f3, roughness: 0.6 });
+
+    [-2.45, 2.45].forEach((px) => {
+      const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.95, 4.1, 0.95), whiteStoneMat);
+      pillar.position.set(px, 2.05, 0);
+      pillar.castShadow = true;
+      gateSystem.add(pillar);
+
+      const cap = new THREE.Mesh(new THREE.BoxGeometry(1.18, 0.3, 1.18), whiteStoneMat);
+      cap.position.set(px, 4.2, 0);
+      gateSystem.add(cap);
+
+      const finial = new THREE.Mesh(new THREE.SphereGeometry(0.24, 14, 14), goldMat);
+      finial.position.set(px, 4.55, 0);
+      gateSystem.add(finial);
+    });
+
+    const archBeam = new THREE.Mesh(new THREE.BoxGeometry(6.1, 0.42, 0.7), whiteStoneMat);
+    archBeam.position.set(0, 4.35, 0);
+    gateSystem.add(archBeam);
+
+    // Dynamic Canvas Sign for "Welcome Princess Anupama"
+    const gateSignCanvas = document.createElement('canvas');
+    gateSignCanvas.width = 1024;
+    gateSignCanvas.height = 384;
+    const gateSignCtx = gateSignCanvas.getContext('2d');
+    const gateSignTex = new THREE.CanvasTexture(gateSignCanvas);
+    gateSignTex.anisotropy = 4;
+
+    function updateGateSignTexture() {
+      const ctx = gateSignCtx;
+      ctx.clearRect(0, 0, 1024, 384);
+      ctx.fillStyle = '#fffaf4';
+      ctx.beginPath();
+      ctx.roundRect(16, 16, 992, 352, 48);
+      ctx.fill();
+      ctx.lineWidth = 12;
+      ctx.strokeStyle = '#e5b869';
+      ctx.stroke();
+
+      ctx.fillStyle = '#8c4a64';
+      ctx.font = '600 50px "Cormorant Garamond", Georgia, serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Welcome Princess', 512, 125);
+
+      ctx.fillStyle = '#c92c63';
+      ctx.font = '140px "Great Vibes", cursive, serif';
+      ctx.fillText(CONFIG.princessName || 'Anupama', 512, 282);
+      gateSignTex.needsUpdate = true;
+    }
+    updateGateSignTexture();
+
+    const signBoardMat = new THREE.MeshStandardMaterial({ map: gateSignTex, roughness: 0.4 });
+    const signBoardFront = new THREE.Mesh(new THREE.PlaneGeometry(3.85, 1.44), signBoardMat);
+    signBoardFront.position.set(0, 4.85, 0.37);
+    gateSystem.add(signBoardFront);
+
+    const signBoardBack = new THREE.Mesh(new THREE.PlaneGeometry(3.85, 1.44), signBoardMat);
+    signBoardBack.rotation.y = Math.PI;
+    signBoardBack.position.set(0, 4.85, -0.37);
+    gateSystem.add(signBoardBack);
+
+    const signBacking = new THREE.Mesh(new THREE.BoxGeometry(3.98, 1.58, 0.7), whiteStoneMat);
+    signBacking.position.set(0, 4.85, 0);
+    gateSystem.add(signBacking);
+
+    // Golden Swinging Gates
+    const leftGatePivot = new THREE.Group();
+    leftGatePivot.position.set(-1.95, 0, 0);
+    gateSystem.add(leftGatePivot);
+
+    const rightGatePivot = new THREE.Group();
+    rightGatePivot.position.set(1.95, 0, 0);
+    gateSystem.add(rightGatePivot);
+
+    function populateGateWing(pivot, dir) {
+      const wingWidth = 1.9;
+      [0.4, 2.75].forEach((by) => {
+        const hBar = new THREE.Mesh(new THREE.BoxGeometry(wingWidth, 0.1, 0.1), goldMat);
+        hBar.position.set(dir * (wingWidth / 2), by, 0);
+        pivot.add(hBar);
+      });
+      for (let i = 0; i <= 7; i++) {
+        const bx = dir * (0.12 + (i / 7) * (wingWidth - 0.2));
+        const barH = 2.6 + Math.sin((i / 7) * Math.PI * 0.5) * 0.55;
+        const vBar = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.038, barH, 8), goldMat);
+        vBar.position.set(bx, barH / 2 + 0.2, 0);
+        pivot.add(vBar);
+      }
+    }
+    populateGateWing(leftGatePivot, 1);
+    populateGateWing(rightGatePivot, -1);
+
+    // Front White Fence
+    for (let side of [-1, 1]) {
+      for (let f = 1; f <= 6; f++) {
+        const fx = side * (2.5 + f * 3.6);
+        const post = new THREE.Mesh(new THREE.BoxGeometry(0.45, 2.2, 0.45), whiteStoneMat);
+        post.position.set(fx, 1.1, 0);
+        gateSystem.add(post);
+
+        [0.55, 1.65].forEach((ry) => {
+          const rail = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.16, 0.16), whiteStoneMat);
+          rail.position.set(fx - side * 1.8, ry, 0);
+          gateSystem.add(rail);
+        });
+
+        for (let p = 1; p <= 5; p++) {
+          const px = fx - side * (p * 0.6);
+          const picket = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 1.6, 6), whiteStoneMat);
+          picket.position.set(px, 1.1, 0);
+          gateSystem.add(picket);
+        }
+      }
+    }
+
+    // Street Lamps
+    const lampMat = new THREE.MeshStandardMaterial({ color: 0x2b262d, roughness: 0.4, metalness: 0.6 });
+    const bulbMat = new THREE.MeshBasicMaterial({ color: 0xfff3b8 });
+    [[-3.1, 24.5], [3.1, 24.5], [-3.1, 31.5], [3.1, 31.5]].forEach(([lx, lz]) => {
+      const lg = new THREE.Group();
+      lg.position.set(lx, 0, lz);
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.1, 2.95, 12), lampMat);
+      pole.position.y = 1.475;
+      lg.add(pole);
+      const lantern = new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 12), bulbMat);
+      lantern.position.y = 3.05;
+      lg.add(lantern);
+      const cap = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.26, 12), lampMat);
+      cap.position.y = 3.28;
+      lg.add(cap);
+      scene.add(lg);
+    });
+
+    // ==========================================
+    // 9. ROSE GARDEN (DETAILED MULTI-PETAL ROSES + ORNATE WHITE TRELLIS ARCH!)
+    // ==========================================
+    const darkFoliageMat = new THREE.MeshStandardMaterial({ color: 0x2a662c, roughness: 0.85 });
+
+    function createRoseBush(x, z, scale = 1) {
+      const bg = new THREE.Group();
+      bg.position.set(x, 0, z);
+
+      // Multi-cluster organic shrub shape
+      [
+        [0, 0.5, 0, 0.72],
+        [-0.4, 0.38, 0.3, 0.52],
+        [0.42, 0.4, -0.25, 0.55],
+        [0.1, 0.42, 0.42, 0.48]
+      ].forEach(([cx, cy, cz, cr]) => {
+        const mound = new THREE.Mesh(new THREE.SphereGeometry(cr * scale, 12, 10), darkFoliageMat);
+        mound.position.set(cx * scale, cy * scale, cz * scale);
+        mound.scale.y = 0.85;
+        mound.castShadow = true;
+        bg.add(mound);
+      });
+
+      // Detailed multi-petal 3D roses perched on the bush
+      const roseCoords = [
+        [0.0, 1.05, 0.25],
+        [-0.55, 0.75, 0.42],
+        [0.58, 0.78, 0.35],
+        [-0.35, 0.82, -0.45],
+        [0.35, 0.85, -0.35],
+        [0.05, 0.65, 0.65]
+      ];
+      roseCoords.forEach(([rx, ry, rz], idx) => {
+        const rose = createRoseBlossom(1.15 * scale);
+        rose.position.set(rx * scale, ry * scale, rz * scale);
+        rose.rotation.set(0.35 * rz, idx * 1.1, -0.35 * rx);
+        bg.add(rose);
+      });
+
+      scene.add(bg);
+      return bg;
+    }
+
+    // Ornate White Trellis Rose Arch (instead of green caterpillar spheres!)
+    const roseArchGroup = new THREE.Group();
+    roseArchGroup.position.set(-8.5, 0, 11.4);
+    roseArchGroup.rotation.y = 0.2;
+    scene.add(roseArchGroup);
+
+    // Side Lattice Trellis Pillars
+    [-1.35, 1.35].forEach((px) => {
+      const outerPost = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 2.4, 10), whiteStoneMat);
+      outerPost.position.set(px, 1.2, 0.2);
+      roseArchGroup.add(outerPost);
+
+      const innerPost = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 2.4, 10), whiteStoneMat);
+      innerPost.position.set(px, 1.2, -0.2);
+      roseArchGroup.add(innerPost);
+
+      for (let r = 0.5; r <= 2.1; r += 0.4) {
+        const rung = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.04, 0.42), whiteStoneMat);
+        rung.position.set(px, r, 0);
+        roseArchGroup.add(rung);
+      }
+    });
+
+    // Twin Curved White Arch Ribs
+    [-0.2, 0.2].forEach((az) => {
+      const archRib = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.055, 10, 32, Math.PI), whiteStoneMat);
+      archRib.position.set(0, 2.38, az);
+      roseArchGroup.add(archRib);
+    });
+
+    // Climbing leafy vine & detailed multi-petal roses along the trellis arch
+    for (let i = 0; i <= 16; i++) {
+      const t = (i / 16) * Math.PI;
+      const ax = -Math.cos(t) * 1.38;
+      const ay = 2.38 + Math.sin(t) * 1.38;
+
+      const leafCluster = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), darkFoliageMat);
+      leafCluster.position.set(ax, ay, (i % 2 === 0 ? 0.14 : -0.14));
+      leafCluster.scale.set(1.2, 0.85, 1.1);
+      roseArchGroup.add(leafCluster);
+
+      if (i % 2 === 1) {
+        const archRose = createRoseBlossom(1.1);
+        archRose.position.set(ax * 1.03, ay + 0.04, 0.26);
+        archRose.rotation.x = Math.PI / 2 - 0.3;
+        roseArchGroup.add(archRose);
+      }
+    }
+
+    // Side climbing roses on arch posts
+    for (let h = 0.8; h <= 2.2; h += 0.55) {
+      [-1.38, 1.38].forEach((px) => {
+        const vine = new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 8), darkFoliageMat);
+        vine.position.set(px, h, 0.18);
+        roseArchGroup.add(vine);
+        const r = createRoseBlossom(1.0);
+        r.position.set(px, h, 0.34);
+        r.rotation.x = Math.PI / 2;
+        roseArchGroup.add(r);
+      });
+    }
+
+    [
+      [-6.2, 10.6, 1.0], [-10.8, 10.4, 1.05],
+      [-6.8, 7.6, 0.95],  [-10.4, 7.5, 1.05]
+    ].forEach(([bx, bz, bs]) => createRoseBush(bx, bz, bs));
+
+    // ==========================================
+    // 10. MAGIC DRAGON SANCTUARY, GAZEBO & WISHING WELL
+    // ==========================================
+    const dragonStation = new THREE.Group();
+    dragonStation.position.set(-11.4, 0, -4.2);
+    dragonStation.rotation.y = 0.58;
+    scene.add(dragonStation);
+
+    const rockMat = new THREE.MeshStandardMaterial({ color: 0xb2b9c9, roughness: 0.72, flatShading: true });
+    const rockMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 2.2, 0.72, 7), rockMat);
+    rockMesh.position.y = 0.36;
+    rockMesh.castShadow = true;
+    rockMesh.receiveShadow = true;
+    dragonStation.add(rockMesh);
+
+    const dragonActor = new THREE.Group();
+    dragonActor.position.set(0, 0.98, 0);
+    dragonStation.add(dragonActor);
+
+    const dragonTealMat = new THREE.MeshStandardMaterial({ color: 0x85d4cf, roughness: 0.48 });
+    const dragonBellyMat = new THREE.MeshStandardMaterial({ color: 0xfff3c4, roughness: 0.55 });
+    const dragonPurpleMat = new THREE.MeshStandardMaterial({ color: 0x9b82f3, roughness: 0.48 });
+    const eyeBlackMat = new THREE.MeshBasicMaterial({ color: 0x1a1520 });
+    const whiteMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+    const dBody = new THREE.Mesh(new THREE.SphereGeometry(0.68, 22, 22), dragonTealMat);
+    dBody.scale.set(1.05, 0.86, 1.3);
+    dBody.castShadow = true;
+    dragonActor.add(dBody);
+
+    const dBelly = new THREE.Mesh(new THREE.SphereGeometry(0.54, 18, 18), dragonBellyMat);
+    dBelly.scale.set(0.95, 0.75, 1.15);
+    dBelly.position.set(0, -0.1, 0.18);
+    dragonActor.add(dBelly);
+
+    const dHead = new THREE.Mesh(new THREE.SphereGeometry(0.52, 22, 22), dragonTealMat);
+    dHead.position.set(0, 0.34, 0.72);
+    dragonActor.add(dHead);
+
+    const dSnout = new THREE.Mesh(new THREE.SphereGeometry(0.32, 18, 18), dragonBellyMat);
+    dSnout.scale.set(1.12, 0.76, 0.92);
+    dSnout.position.set(0, 0.22, 1.12);
+    dragonActor.add(dSnout);
+
+    [-0.19, 0.19].forEach((ex) => {
+      const eye = new THREE.Mesh(new THREE.SphereGeometry(0.068, 12, 12), eyeBlackMat);
+      eye.position.set(ex, 0.45, 1.18);
+      dragonActor.add(eye);
+
+      const glint = new THREE.Mesh(new THREE.SphereGeometry(0.022, 8, 8), whiteMat);
+      glint.position.set(ex + 0.02, 0.48, 1.24);
+      dragonActor.add(glint);
+
+      const blush = new THREE.Mesh(new THREE.CircleGeometry(0.075, 12), new THREE.MeshBasicMaterial({ color: 0xff94b2 }));
+      blush.position.set(ex * 1.45, 0.32, 1.16);
+      blush.rotation.y = ex * 1.5;
+      dragonActor.add(blush);
+
+      const horn = new THREE.Mesh(new THREE.ConeGeometry(0.13, 0.44, 10), dragonPurpleMat);
+      horn.position.set(ex * 1.4, 0.78, 0.62);
+      horn.rotation.z = -ex * 0.75;
+      horn.rotation.x = -0.28;
+      dragonActor.add(horn);
+
+      // Cute stubby legs
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.38, 10), dragonTealMat);
+      leg.position.set(ex * 2.1, -0.32, 0.35);
+      dragonActor.add(leg);
+    });
+
+    const leftWingPivot = new THREE.Group();
+    leftWingPivot.position.set(-0.52, 0.35, 0.1);
+    dragonActor.add(leftWingPivot);
+    const leftWingMesh = new THREE.Mesh(new THREE.ConeGeometry(0.55, 1.05, 4), dragonPurpleMat);
+    leftWingMesh.rotation.z = Math.PI / 2.4;
+    leftWingMesh.position.set(-0.45, 0.2, 0);
+    leftWingPivot.add(leftWingMesh);
+
+    const rightWingPivot = new THREE.Group();
+    rightWingPivot.position.set(0.52, 0.35, 0.1);
+    dragonActor.add(rightWingPivot);
+    const rightWingMesh = new THREE.Mesh(new THREE.ConeGeometry(0.55, 1.05, 4), dragonPurpleMat);
+    rightWingMesh.rotation.z = -Math.PI / 2.4;
+    rightWingMesh.position.set(0.45, 0.2, 0);
+    rightWingPivot.add(rightWingMesh);
+
+    const dTail = new THREE.Mesh(new THREE.ConeGeometry(0.28, 1.15, 12), dragonTealMat);
+    dTail.rotation.x = -Math.PI / 2.3;
+    dTail.position.set(0, -0.05, -1.2);
+    dragonActor.add(dTail);
+
+    // Gazebo
+    const gazeboGroup = new THREE.Group();
+    gazeboGroup.position.set(14.5, 0, 11.5);
+    scene.add(gazeboGroup);
+    const gazBase = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.6, 0.4, 8), whiteStoneMat);
+    gazBase.position.y = 0.2;
+    gazeboGroup.add(gazBase);
+    for (let c = 0; c < 6; c++) {
+      const ang = (c / 6) * Math.PI * 2;
+      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 3.2, 12), whiteStoneMat);
+      col.position.set(Math.cos(ang) * 2.85, 1.8, Math.sin(ang) * 2.85);
+      gazeboGroup.add(col);
+    }
+    const gazRoof = new THREE.Mesh(new THREE.ConeGeometry(3.9, 2.1, 8), pinkRoofMat);
+    gazRoof.position.y = 4.35;
+    gazeboGroup.add(gazRoof);
+
+    // Wishing Well
+    const wellGroup = new THREE.Group();
+    wellGroup.position.set(11.5, 0, 1.5);
+    wellGroup.rotation.y = -0.45;
+    scene.add(wellGroup);
+
+    const stoneGreyMat = new THREE.MeshStandardMaterial({ color: 0xd8dce8, roughness: 0.78 });
+    const stoneDarkMat = new THREE.MeshStandardMaterial({ color: 0xaab2c7, roughness: 0.82 });
+    const wellWall = new THREE.Mesh(new THREE.CylinderGeometry(1.22, 1.3, 1.15, 24), stoneGreyMat);
+    wellWall.position.y = 0.575;
+    wellGroup.add(wellWall);
+
+    for (let row = 0; row < 3; row++) {
+      for (let s = 0; s < 14; s++) {
+        const ang = (s / 14) * Math.PI * 2 + row * 0.22;
+        const stone = new THREE.Mesh(new THREE.SphereGeometry(0.24, 8, 8), s % 2 === 0 ? stoneGreyMat : stoneDarkMat);
+        stone.scale.set(1.2, 0.78, 0.7);
+        stone.position.set(Math.cos(ang) * 1.24, 0.25 + row * 0.34, Math.sin(ang) * 1.24);
+        stone.rotation.y = -ang;
+        wellGroup.add(stone);
+      }
+    }
+
+    const wellWater = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.05, 1.05, 0.1, 20),
+      new THREE.MeshBasicMaterial({ color: 0x8ce7ff })
+    );
+    wellWater.position.y = 0.94;
+    wellGroup.add(wellWater);
+
+    const woodBrownMat = new THREE.MeshStandardMaterial({ color: 0x7a4b3a, roughness: 0.8 });
+    [-1.05, 1.05].forEach((wx) => {
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 2.6, 10), woodBrownMat);
+      post.position.set(wx, 1.4, 0);
+      wellGroup.add(post);
+    });
+
+    const wellCrossbar = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 2.1, 8), woodBrownMat);
+    wellCrossbar.rotation.z = Math.PI / 2;
+    wellCrossbar.position.y = 2.2;
+    wellGroup.add(wellCrossbar);
+
+    const wellRoof = new THREE.Mesh(new THREE.ConeGeometry(1.85, 1.35, 4), darkPinkMat);
+    wellRoof.rotation.y = Math.PI / 4;
+    wellRoof.scale.set(1.15, 1, 0.95);
+    wellRoof.position.y = 3.15;
+    wellGroup.add(wellRoof);
+
+    const wishOrb = new THREE.Mesh(
+      new THREE.SphereGeometry(0.22, 16, 16),
+      new THREE.MeshBasicMaterial({ color: 0xffe46b })
+    );
+    wishOrb.position.set(0, 1.38, 0);
+    wellGroup.add(wishOrb);
+
+    // ==========================================
+    // 11. TREES & CLEAN WOODEN SIGNPOSTS (NO POLE CLIPPING!)
+    // ==========================================
+    const trunkMat = new THREE.MeshStandardMaterial({ color: 0x6d4c41, roughness: 0.85 });
+    const sakuraPinkMat = new THREE.MeshStandardMaterial({ color: 0xf7c3d8, roughness: 0.68 });
+    const greenLeafMat = new THREE.MeshStandardMaterial({ color: 0x56a832, roughness: 0.72 });
+
+    function createStylizedTree(x, z, isPink = true, scale = 1) {
+      const tg = new THREE.Group();
+      tg.position.set(x, 0, z);
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.22 * scale, 0.36 * scale, 2.3 * scale, 10), trunkMat);
+      trunk.position.y = 1.15 * scale;
+      trunk.castShadow = true;
+      tg.add(trunk);
+
+      const mat = isPink ? sakuraPinkMat : greenLeafMat;
+      [
+        [0, 2.7, 0, 1.35],
+        [-0.85, 2.3, 0.4, 0.98],
+        [0.85, 2.35, -0.3, 1.02],
+        [0.2, 2.4, 0.85, 0.92]
+      ].forEach(([cx, cy, cz, cr]) => {
+        const puff = new THREE.Mesh(new THREE.SphereGeometry(cr * scale, 16, 16), mat);
+        puff.scale.y = 0.82;
+        puff.position.set(cx * scale, cy * scale, cz * scale);
+        puff.castShadow = true;
+        tg.add(puff);
+      });
+      scene.add(tg);
+    }
+
+    [
+      [-15, 16, false, 1.2], [-18, 8, true, 1.15],
+      [-14.5, -2.5, true, 1.1], [-12.5, -7.8, true, 1.25], [-8.2, -7.5, true, 1.0],
+      [15, 16, false, 1.25], [17.5, 6, true, 1.15],
+      [13.8, -2.5, true, 1.2], [9.5, -6.5, false, 1.1],
+      [-17, -14, false, 1.3], [17, -14, false, 1.3]
+    ].forEach(([tx, tz, isP, sc]) => createStylizedTree(tx, tz, isP, sc));
+
+    const signposts = [];
+    function createSignpost(x, z, rotY, id, emoji, title) {
+      const sg = new THREE.Group();
+      sg.position.set(x, 0, z);
+      sg.rotation.y = rotY;
+
+      // Post sits BEHIND the signboard (z = -0.09) so it NEVER pokes through the text!
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.065, 1.45, 10), whiteStoneMat);
+      post.position.set(0, 0.725, -0.09);
+      sg.add(post);
+
+      const boardCanvas = document.createElement('canvas');
+      boardCanvas.width = 256;
+      boardCanvas.height = 256;
+      const bctx = boardCanvas.getContext('2d');
+      bctx.fillStyle = '#fffdf8';
+      bctx.fillRect(0, 0, 256, 256);
+      bctx.strokeStyle = '#e5b869';
+      bctx.lineWidth = 14;
+      bctx.strokeRect(10, 10, 236, 236);
+      bctx.font = '72px sans-serif';
+      bctx.textAlign = 'center';
+      bctx.fillText(emoji, 128, 108);
+      bctx.fillStyle = '#8c2d54';
+      bctx.font = 'bold 30px Quicksand, sans-serif';
+      bctx.fillText('Read Note', 128, 175);
+      bctx.fillStyle = '#e03e73';
+      bctx.font = '26px sans-serif';
+      bctx.fillText('♥', 128, 215);
+
+      const boardTex = new THREE.CanvasTexture(boardCanvas);
+      const board = new THREE.Mesh(
+        new THREE.BoxGeometry(0.84, 0.84, 0.07),
+        new THREE.MeshStandardMaterial({ map: boardTex, roughness: 0.45 })
+      );
+      board.position.set(0, 1.32, 0.02);
+      board.userData = { signId: id, emoji, title };
+      sg.add(board);
+      signposts.push(board);
+      scene.add(sg);
+    }
+
+    createSignpost(-10.8, 11.4, 0.35, 'rose', '🌹', 'The Royal Rose Garden');
+    createSignpost(-13.6, -2.5, 0.55, 'dragon', '🐉', 'Guardian Dragon Sanctuary');
+    createSignpost(-3.4, -12.6, 0.35, 'throne', '👑', 'Princess Anupama\'s Throne');
+    createSignpost(13.5, 3.2, -0.45, 'well', '✨', 'The Wishing Well of Dreams');
+
+    // ==========================================
+    // 12. DETAILED CHIBI CHARACTERS (WARM SKIN, CUTE FACES, JOINTED LEGS, HANDS, HAIR!)
+    // ==========================================
+    const coupleRig = new THREE.Group();
+    coupleRig.position.copy(STORY_STEPS[0].couplePos);
+    coupleRig.rotation.y = STORY_STEPS[0].coupleRot;
+    scene.add(coupleRig);
+
+    // Warm healthy peach skin + zero green reflection!
+    const skinMat = new THREE.MeshStandardMaterial({ color: 0xffdfc4, roughness: 0.65 });
+    const hairMat = new THREE.MeshStandardMaterial({ color: 0x1c1821, roughness: 0.58 });
+    const blushMat = new THREE.MeshBasicMaterial({ color: 0xff85a6, transparent: true, opacity: 0.6 });
+    const lipMat = new THREE.MeshBasicMaterial({ color: 0xd9597b });
+
+    function addCuteFace(parentGroup, headY, isGirl) {
+      // Ears
+      [-0.43, 0.43].forEach((ex) => {
+        const ear = new THREE.Mesh(new THREE.SphereGeometry(0.085, 10, 10), skinMat);
+        ear.position.set(ex, headY - 0.02, 0.02);
+        parentGroup.add(ear);
+      });
+
+      // Eyes + White Highlights + Eyebrows + Blush
+      [-0.145, 0.145].forEach((ex) => {
+        const eye = new THREE.Mesh(new THREE.SphereGeometry(0.048, 12, 12), eyeBlackMat);
+        eye.scale.set(1, 1.25, 0.6);
+        eye.position.set(ex, headY - 0.04, 0.415);
+        parentGroup.add(eye);
+
+        const shine = new THREE.Mesh(new THREE.SphereGeometry(0.016, 8, 8), whiteMat);
+        shine.position.set(ex + 0.016, headY - 0.018, 0.445);
+        parentGroup.add(shine);
+
+        const brow = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.018, 0.02), hairMat);
+        brow.position.set(ex, headY + 0.08, 0.42);
+        brow.rotation.z = ex < 0 ? 0.1 : -0.1;
+        parentGroup.add(brow);
+
+        if (isGirl) {
+          const blush = new THREE.Mesh(new THREE.CircleGeometry(0.068, 14), blushMat);
+          blush.position.set(ex * 1.48, headY - 0.12, 0.405);
+          blush.rotation.y = ex * 0.65;
+          parentGroup.add(blush);
+        }
+      });
+
+      // Tiny nose & sweet smile
+      const nose = new THREE.Mesh(new THREE.SphereGeometry(0.022, 8, 8), new THREE.MeshStandardMaterial({ color: 0xf4bfa0 }));
+      nose.position.set(0, headY - 0.095, 0.44);
+      parentGroup.add(nose);
+
+      const smile = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.011, 8, 12, Math.PI), lipMat);
+      smile.rotation.z = Math.PI;
+      smile.position.set(0, headY - 0.155, 0.42);
+      parentGroup.add(smile);
+    }
+
+    // --- A) CHIBI BOY ---
+    const boyGroup = new THREE.Group();
+    boyGroup.position.set(-0.54, 0, 0);
+    coupleRig.add(boyGroup);
+
+    const boyHead = new THREE.Mesh(new THREE.SphereGeometry(0.44, 24, 24), skinMat);
+    boyHead.scale.set(1.03, 0.96, 0.96);
+    boyHead.position.y = 1.62;
+    boyHead.castShadow = true;
+    boyGroup.add(boyHead);
+
+    addCuteFace(boyGroup, 1.62, false);
+
+    // Sculpted Boy Hair (raised slightly higher so forehead & brows breathe cleanly!)
+    const boyHairTop = new THREE.Mesh(new THREE.SphereGeometry(0.465, 24, 24, 0, Math.PI * 2, 0, Math.PI * 0.52), hairMat);
+    boyHairTop.position.set(0, 1.70, -0.02);
+    boyHairTop.rotation.x = -0.18;
+    boyGroup.add(boyHairTop);
+
+    const boyHairBack = new THREE.Mesh(new THREE.SphereGeometry(0.455, 20, 20), hairMat);
+    boyHairBack.scale.set(1, 0.85, 0.65);
+    boyHairBack.position.set(0, 1.64, -0.16);
+    boyGroup.add(boyHairBack);
+
+    // Side hair swoops
+    [-0.32, 0.32].forEach((sx) => {
+      const sideLock = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 12), hairMat);
+      sideLock.scale.set(0.7, 1.4, 0.85);
+      sideLock.position.set(sx, 1.65, 0.12);
+      boyGroup.add(sideLock);
+    });
+
+    // Neck + White Shirt Torso + Collar
+    const boyNeck = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.1, 0.16, 12), skinMat);
+    boyNeck.position.y = 1.24;
+    boyGroup.add(boyNeck);
+
+    const shirtMat = new THREE.MeshStandardMaterial({ color: 0xfbfcfe, roughness: 0.58 });
+    const boyTorso = new THREE.Mesh(new THREE.CylinderGeometry(0.23, 0.27, 0.6, 18), shirtMat);
+    boyTorso.position.y = 0.94;
+    boyTorso.castShadow = true;
+    boyGroup.add(boyTorso);
+
+    // Shirt sleeves + hands
+    const boyLeftArm = new THREE.Group();
+    boyLeftArm.position.set(-0.30, 1.15, 0);
+    boyGroup.add(boyLeftArm);
+    const bLSleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.09, 0.22, 12), shirtMat);
+    bLSleeve.position.y = -0.08;
+    boyLeftArm.add(bLSleeve);
+    const bLArmMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.058, 0.34, 12), skinMat);
+    bLArmMesh.position.y = -0.30;
+    boyLeftArm.add(bLArmMesh);
+    const bLHand = new THREE.Mesh(new THREE.SphereGeometry(0.068, 10, 10), skinMat);
+    bLHand.position.y = -0.47;
+    boyLeftArm.add(bLHand);
+
+    const boyRightArm = new THREE.Group();
+    boyRightArm.position.set(0.30, 1.15, 0);
+    boyRightArm.rotation.z = -0.35;
+    boyGroup.add(boyRightArm);
+    const bRSleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.09, 0.22, 12), shirtMat);
+    bRSleeve.position.y = -0.08;
+    boyRightArm.add(bRSleeve);
+    const bRArmMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.058, 0.34, 12), skinMat);
+    bRArmMesh.position.y = -0.30;
+    boyRightArm.add(bRArmMesh);
+    const bRHand = new THREE.Mesh(new THREE.SphereGeometry(0.068, 10, 10), skinMat);
+    bRHand.position.y = -0.47;
+    boyRightArm.add(bRHand);
+
+    // Jointed Boy Legs (Hip + Knee so he walks & genuinely KNEELS at Throne!)
+    const jeansMat = new THREE.MeshStandardMaterial({ color: 0x264b82, roughness: 0.72 });
+    const shoeMat = new THREE.MeshStandardMaterial({ color: 0x5c3820, roughness: 0.65 });
+
+    function createBoyLeg(xOffset) {
+      const hip = new THREE.Group();
+      hip.position.set(xOffset, 0.64, 0);
+
+      const thigh = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.095, 0.30, 12), jeansMat);
+      thigh.position.y = -0.15;
+      hip.add(thigh);
+
+      const knee = new THREE.Group();
+      knee.position.set(0, -0.30, 0);
+      hip.add(knee);
+
+      const shin = new THREE.Mesh(new THREE.CylinderGeometry(0.092, 0.082, 0.28, 12), jeansMat);
+      shin.position.y = -0.14;
+      knee.add(shin);
+
+      const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.11, 0.25), shoeMat);
+      shoe.position.set(0, -0.29, 0.04);
+      knee.add(shoe);
+
+      return { hip, knee };
+    }
+    const boyLegL = createBoyLeg(-0.13);
+    const boyLegR = createBoyLeg(0.13);
+    boyGroup.add(boyLegL.hip);
+    boyGroup.add(boyLegR.hip);
+
+    // --- B) PRINCESS ANUPAMA ---
+    const girlGroup = new THREE.Group();
+    girlGroup.position.set(0.54, 0, 0);
+    coupleRig.add(girlGroup);
+
+    const girlHead = new THREE.Mesh(new THREE.SphereGeometry(0.43, 24, 24), skinMat);
+    girlHead.scale.set(1.03, 0.96, 0.96);
+    girlHead.position.y = 1.56;
+    girlHead.castShadow = true;
+    girlGroup.add(girlHead);
+
+    addCuteFace(girlGroup, 1.56, true);
+
+    // Princess Hair (neatly framed bangs + long flowing locks + cute pink bow)
+    const girlHairTop = new THREE.Mesh(new THREE.SphereGeometry(0.458, 24, 24, 0, Math.PI * 2, 0, Math.PI * 0.50), hairMat);
+    girlHairTop.position.set(0, 1.64, -0.02);
+    girlHairTop.rotation.x = -0.2;
+    girlGroup.add(girlHairTop);
+
+    const girlHairBack = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.48, 1.02, 20), hairMat);
+    girlHairBack.scale.z = 0.52;
+    girlHairBack.position.set(0, 1.20, -0.21);
+    girlGroup.add(girlHairBack);
+
+    [-0.36, 0.36].forEach((sx) => {
+      const sideLock = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.065, 0.58, 10), hairMat);
+      sideLock.position.set(sx, 1.38, 0.08);
+      girlGroup.add(sideLock);
+    });
+
+    // Golden Princess Tiara
+    const tiaraGroup = new THREE.Group();
+    tiaraGroup.position.set(0, 2.02, 0.08);
+    tiaraGroup.visible = false;
+    girlGroup.add(tiaraGroup);
+
+    const tiaraBase = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.22, 0.13, 16, 1, true), goldMat);
+    tiaraGroup.add(tiaraBase);
+    for (let p = -2; p <= 2; p++) {
+      const peak = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.17 - Math.abs(p) * 0.03, 8), goldMat);
+      peak.position.set(p * 0.075, 0.12, Math.cos(p * 0.4) * 0.21);
+      tiaraGroup.add(peak);
+    }
+    const centerGem = new THREE.Mesh(new THREE.OctahedronGeometry(0.045, 0), roseRedMat);
+    centerGem.position.set(0, 0.12, 0.23);
+    tiaraGroup.add(centerGem);
+
+    // Neck + Princess Gown (Bodice + Sash + Flared Skirt + White Lace Trim)
+    const girlNeck = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.095, 0.14, 12), skinMat);
+    girlNeck.position.y = 1.18;
+    girlGroup.add(girlNeck);
+
+    const dressPinkMat = new THREE.MeshStandardMaterial({ color: 0xf99dc2, roughness: 0.52 });
+    const dressSashMat = new THREE.MeshStandardMaterial({ color: 0xe84a86, roughness: 0.45 });
+    const dressTrimMat = new THREE.MeshStandardMaterial({ color: 0xfff8fb, roughness: 0.6 });
+
+    const bodice = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.24, 0.4, 18), dressPinkMat);
+    bodice.position.y = 0.96;
+    girlGroup.add(bodice);
+
+    const sash = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.038, 10, 24), dressSashMat);
+    sash.rotation.x = Math.PI / 2;
+    sash.position.y = 0.77;
+    girlGroup.add(sash);
+
+    const skirt = new THREE.Mesh(new THREE.ConeGeometry(0.56, 0.76, 28), dressPinkMat);
+    skirt.position.y = 0.46;
+    skirt.castShadow = true;
+    girlGroup.add(skirt);
+
+    const skirtHem = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.042, 10, 28), dressTrimMat);
+    skirtHem.rotation.x = Math.PI / 2;
+    skirtHem.position.y = 0.1;
+    girlGroup.add(skirtHem);
+
+    // Puff sleeves & Arms + Hands
+    const girlLeftArm = new THREE.Group();
+    girlLeftArm.position.set(-0.27, 1.10, 0);
+    girlLeftArm.rotation.z = 0.35;
+    girlGroup.add(girlLeftArm);
+    const gLPuff = new THREE.Mesh(new THREE.SphereGeometry(0.115, 12, 12), dressPinkMat);
+    girlLeftArm.add(gLPuff);
+    const gLArmMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.052, 0.36, 12), skinMat);
+    gLArmMesh.position.y = -0.22;
+    girlLeftArm.add(gLArmMesh);
+    const gLHand = new THREE.Mesh(new THREE.SphereGeometry(0.06, 10, 10), skinMat);
+    gLHand.position.y = -0.41;
+    girlLeftArm.add(gLHand);
+
+    const girlRightArm = new THREE.Group();
+    girlRightArm.position.set(0.27, 1.10, 0);
+    girlGroup.add(girlRightArm);
+    const gRPuff = new THREE.Mesh(new THREE.SphereGeometry(0.115, 12, 12), dressPinkMat);
+    girlRightArm.add(gRPuff);
+    const gRArmMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.052, 0.36, 12), skinMat);
+    gRArmMesh.position.y = -0.22;
+    girlRightArm.add(gRArmMesh);
+    const gRHand = new THREE.Mesh(new THREE.SphereGeometry(0.06, 10, 10), skinMat);
+    gRHand.position.y = -0.41;
+    girlRightArm.add(gRHand);
+
+    // Detailed Multi-Petal Hand Rose (held neatly in her right hand, never blocking her face!)
+    const heldRoseGroup = createFullStemRose(0.8);
+    heldRoseGroup.position.set(0.32, 0.72, 0.28);
+    heldRoseGroup.rotation.x = 0.4;
+    heldRoseGroup.rotation.z = -0.22;
+    heldRoseGroup.visible = false;
+    girlGroup.add(heldRoseGroup);
+
+    // Boy's Velvet Cushion with Golden Crown (for kneeling proposal at Throne!)
+    const proposalCushion = new THREE.Group();
+    proposalCushion.position.set(0.28, 0.95, 0.42);
+    proposalCushion.visible = false;
+    boyGroup.add(proposalCushion);
+
+    const pPillow = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.1, 0.38), velvetPinkMat);
+    proposalCushion.add(pPillow);
+    const pRing = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.025, 8, 16), goldMat);
+    pRing.rotation.x = Math.PI / 2;
+    pRing.position.y = 0.07;
+    proposalCushion.add(pRing);
+
+    // --- C) CUTE DETAILED ORANGE TABBY CAT ---
+    const catGroup = new THREE.Group();
+    catGroup.position.set(-1.35, 0, 0.25);
+    coupleRig.add(catGroup);
+
+    const catOrangeMat = new THREE.MeshStandardMaterial({ color: 0xf5993b, roughness: 0.58 });
+    const catStripeMat = new THREE.MeshStandardMaterial({ color: 0xc25f10, roughness: 0.65 });
+    const catCreamMat = new THREE.MeshStandardMaterial({ color: 0xfff6ea, roughness: 0.65 });
+    const catEyeMat = new THREE.MeshBasicMaterial({ color: 0x9ce04a });
+
+    const catBody = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), catOrangeMat);
+    catBody.scale.set(0.9, 0.85, 1.35);
+    catBody.position.y = 0.27;
+    catBody.castShadow = true;
+    catGroup.add(catBody);
+
+    const catChest = new THREE.Mesh(new THREE.SphereGeometry(0.15, 12, 12), catCreamMat);
+    catChest.position.set(0, 0.26, 0.22);
+    catGroup.add(catChest);
+
+    // Cute Pink Collar + Golden Bell
+    const collar = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.022, 8, 18), velvetPinkMat);
+    collar.rotation.x = Math.PI / 2.3;
+    collar.position.set(0, 0.41, 0.18);
+    catGroup.add(collar);
+    const bell = new THREE.Mesh(new THREE.SphereGeometry(0.036, 10, 10), goldMat);
+    bell.position.set(0, 0.35, 0.33);
+    catGroup.add(bell);
+
+    const catHead = new THREE.Mesh(new THREE.SphereGeometry(0.25, 20, 20), catOrangeMat);
+    catHead.scale.set(1.08, 0.94, 0.95);
+    catHead.position.set(0, 0.55, 0.26);
+    catGroup.add(catHead);
+
+    // White Muzzle & Pink Nose
+    const muzzle = new THREE.Mesh(new THREE.SphereGeometry(0.095, 12, 12), catCreamMat);
+    muzzle.scale.set(1.3, 0.8, 0.8);
+    muzzle.position.set(0, 0.49, 0.46);
+    catGroup.add(muzzle);
+    const catNose = new THREE.Mesh(new THREE.SphereGeometry(0.026, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff7da0 }));
+    catNose.position.set(0, 0.52, 0.53);
+    catGroup.add(catNose);
+
+    [-0.15, 0.15].forEach((cx) => {
+      const ear = new THREE.Mesh(new THREE.ConeGeometry(0.085, 0.19, 8), catOrangeMat);
+      ear.position.set(cx, 0.78, 0.24);
+      ear.rotation.z = -cx * 1.4;
+      catGroup.add(ear);
+
+      const cEye = new THREE.Mesh(new THREE.SphereGeometry(0.048, 10, 10), catEyeMat);
+      cEye.position.set(cx * 0.72, 0.56, 0.47);
+      catGroup.add(cEye);
+
+      const pupil = new THREE.Mesh(new THREE.SphereGeometry(0.03, 8, 8), eyeBlackMat);
+      pupil.position.set(cx * 0.72, 0.56, 0.498);
+      catGroup.add(pupil);
+
+      const cGlint = new THREE.Mesh(new THREE.SphereGeometry(0.011, 6, 6), whiteMat);
+      cGlint.position.set(cx * 0.72 + 0.012, 0.575, 0.52);
+      catGroup.add(cGlint);
+    });
+
+    for (let s = -1; s <= 1; s++) {
+      const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.022, 0.075, 0.02), catStripeMat);
+      stripe.position.set(s * 0.052, 0.69, 0.47);
+      catGroup.add(stripe);
+    }
+
+    const catTail = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.042, 0.44, 8), catOrangeMat);
+    catTail.position.set(0, 0.45, -0.32);
+    catTail.rotation.x = -0.52;
+    catGroup.add(catTail);
+
+    [[-0.1, 0.14], [0.1, 0.14], [-0.1, -0.14], [0.1, -0.14]].forEach(([lx, lz]) => {
+      const paw = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.042, 0.19, 8), catCreamMat);
+      paw.position.set(lx, 0.095, lz);
+      catGroup.add(paw);
+    });
+
+    // ==========================================
+    // 13. PARTICLES (HEARTS, SPARKLES, CONFETTI, FIREFLIES)
+    // ==========================================
+    const activeParticles = [];
+
+    function spawnBurstParticles(origin, type = 'hearts', count = 28) {
+      for (let i = 0; i < count; i++) {
+        let mesh;
+        if (type === 'hearts') {
+          const col = i % 2 === 0 ? 0xff477e : 0xff9ebb;
+          mesh = new THREE.Mesh(new THREE.OctahedronGeometry(0.1, 1), new THREE.MeshBasicMaterial({ color: col }));
+        } else if (type === 'confetti') {
+          const cols = [0xff477e, 0xffd166, 0xff85a1, 0xffffff, 0xc77dff];
+          mesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(0.14, 0.09),
+            new THREE.MeshBasicMaterial({ color: cols[i % cols.length], side: THREE.DoubleSide })
+          );
+        } else {
+          const col = i % 2 === 0 ? 0xffffff : 0xffe66d;
+          mesh = new THREE.Mesh(new THREE.SphereGeometry(0.075, 8, 8), new THREE.MeshBasicMaterial({ color: col }));
+        }
+        mesh.position.copy(origin).add(
+          new THREE.Vector3((Math.random() - 0.5) * 1.8, Math.random() * 0.9, (Math.random() - 0.5) * 1.8)
+        );
+        scene.add(mesh);
+        activeParticles.push({
+          mesh,
+          type,
+          vel: new THREE.Vector3(
+            (Math.random() - 0.5) * 1.1,
+            type === 'confetti' ? -0.9 - Math.random() * 0.7 : 0.85 + Math.random() * 1.1,
+            (Math.random() - 0.5) * 1.1
+          ),
+          life: 0,
+          maxLife: 2.2 + Math.random() * 1.2
+        });
+      }
+    }
+
+    const fireflyCount = 75;
+    const fireflyGeo = new THREE.BufferGeometry();
+    const fireflyPositions = new Float32Array(fireflyCount * 3);
+    for (let i = 0; i < fireflyCount; i++) {
+      fireflyPositions[i * 3] = (Math.random() - 0.5) * 36;
+      fireflyPositions[i * 3 + 1] = 0.5 + Math.random() * 3.5;
+      fireflyPositions[i * 3 + 2] = -14 + Math.random() * 32;
+    }
+    fireflyGeo.setAttribute('position', new THREE.BufferAttribute(fireflyPositions, 3));
+    scene.add(new THREE.Points(
+      fireflyGeo,
+      new THREE.PointsMaterial({ color: 0xfff9b0, size: 0.2, transparent: true, opacity: 0.82 })
+    ));
+
+    // ==========================================
+    // 14. STORY NAVIGATION & FIXED SCENE POSES
+    // ==========================================
+    let targetCamPos = STORY_STEPS[0].camPos.clone();
+    let targetLookAt = STORY_STEPS[0].camTarget.clone();
+    let targetCouplePos = STORY_STEPS[0].couplePos.clone();
+    let targetCoupleRot = STORY_STEPS[0].coupleRot;
+    let isCameraTransitioning = false;
+
+    let gateTargetAngle = 0;
+    let dragonFlightTimer = 0;
+    let throneModeActive = false;
+
+    const subtitleToast = document.getElementById('subtitle-toast');
+    const primaryActionBtn = document.getElementById('primary-action-btn');
+    const actionBtnText = document.getElementById('action-btn-text');
+    const aerialTitle = document.getElementById('aerial-title');
+    const stepDots = document.querySelectorAll('.step-dot');
+
+    function setSubtitle(text) {
+      subtitleToast.classList.remove('show');
+      setTimeout(() => {
+        subtitleToast.textContent = text;
+        subtitleToast.classList.add('show');
+      }, 100);
+    }
+
+    function resetCharacterPoses() {
+      throneModeActive = false;
+      boyGroup.position.set(-0.54, 0, 0);
+      boyGroup.rotation.set(0, 0, 0);
+      girlGroup.position.set(0.54, 0, 0);
+      girlGroup.rotation.set(0, 0, 0);
+      catGroup.position.set(-1.35, 0, 0.25);
+      catGroup.visible = true;
+
+      // Reset arm & leg joints
+      boyLeftArm.rotation.set(0, 0, 0);
+      boyRightArm.rotation.set(0, 0, -0.35);
+      girlLeftArm.rotation.set(0, 0, 0.35);
+      girlRightArm.rotation.set(0, 0, 0);
+
+      boyLegL.hip.rotation.set(0, 0, 0);
+      boyLegL.knee.rotation.set(0, 0, 0);
+      boyLegR.hip.rotation.set(0, 0, 0);
+      boyLegR.knee.rotation.set(0, 0, 0);
+
+      proposalCushion.visible = false;
+      heldRoseGroup.visible = roseGiven;
+      tiaraGroup.visible = crownGiven;
+    }
+
+    function applyKneelingPose() {
+      // Genuine 1-knee kneeling posture on left side facing Princess Anupama!
+      boyGroup.position.set(-1.55, -0.18, -0.15);
+      boyGroup.rotation.set(0, 2.03, 0);
+
+      // Left leg forward foot flat
+      boyLegL.hip.rotation.x = -1.25;
+      boyLegL.knee.rotation.x = 1.25;
+
+      // Right knee down on the marble step
+      boyLegR.hip.rotation.x = 0.25;
+      boyLegR.knee.rotation.x = 1.35;
+
+      boyRightArm.rotation.set(-0.85, 0, 0.15);
+      boyLeftArm.rotation.set(-0.85, 0, -0.15);
+      proposalCushion.visible = true;
+    }
+
+    function goToStep(index) {
+      currentStepIndex = (index + STORY_STEPS.length) % STORY_STEPS.length;
+      currentActionCompleted = false;
+      isFreeRoam = false;
+      resetCharacterPoses();
+
+      const step = STORY_STEPS[currentStepIndex];
+      targetCamPos.copy(step.camPos);
+      targetLookAt.copy(step.camTarget);
+      targetCouplePos.copy(step.couplePos);
+      targetCoupleRot = step.coupleRot;
+      isCameraTransitioning = true;
+
+      gateTargetAngle = step.gateOpen ? Math.PI * 0.56 : 0;
+
+      if (step.showAerialTitle) aerialTitle.classList.add('visible');
+      else aerialTitle.classList.remove('visible');
+
+      setSubtitle(step.subtitle);
+      actionBtnText.textContent = step.btnText;
+      stepDots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentStepIndex));
+
+      // Special arrangement at the Royal Throne (Step 5)
+      if (step.actionType === 'throne') {
+        throneModeActive = true;
+        catGroup.visible = false;
+        // Snap coupleRig cleanly onto throne center so Princess Anupama is immediately seated on the throne!
+        coupleRig.position.copy(step.couplePos);
+        coupleRig.rotation.y = step.coupleRot;
+
+        // Princess Anupama seated proudly facing forward on the golden throne cushion
+        girlGroup.position.set(0, 0.52, -0.92);
+        girlGroup.rotation.set(0, 0, 0);
+
+        // Boy standing clearly to her LEFT facing her (never blocking her from the camera!)
+        boyGroup.position.set(-1.55, 0, -0.15);
+        boyGroup.rotation.set(0, 2.03, 0);
+      }
+    }
+
+    function unlockMemory(id) {
+      const mem = MEMORIES.find((m) => m.id === id);
+      if (mem && !mem.unlocked) {
+        mem.unlocked = true;
+        updateMemoriesUI();
+      }
+    }
+
+    function performSceneAction(actionType) {
+      if (actionType === 'rose') {
+        roseGiven = true;
+        boyGroup.rotation.y = 1.35;
+        girlGroup.rotation.y = -1.35;
+        boyRightArm.rotation.x = -0.85;
+        girlLeftArm.rotation.x = -0.85;
+        heldRoseGroup.visible = true;
+
+        spawnBurstParticles(coupleRig.position.clone().add(new THREE.Vector3(0, 1.5, 0)), 'hearts', 32);
+        unlockMemory('rose');
+        setSubtitle(CONFIG.notes.rose);
+        actionBtnText.textContent = 'Next: Visit the Magic Dragon 🐉 →';
+        currentActionCompleted = true;
+      } else if (actionType === 'dragon') {
+        dragonFlightTimer = 4.2;
+        spawnBurstParticles(dragonStation.position.clone().add(new THREE.Vector3(0, 1.8, 0)), 'sparkles', 40);
+        unlockMemory('dragon');
+        setSubtitle(CONFIG.notes.dragon);
+        actionBtnText.textContent = 'Next: Go to the Royal Throne 👑 →';
+        currentActionCompleted = true;
+      } else if (actionType === 'throne') {
+        crownGiven = true;
+        tiaraGroup.visible = true;
+        applyKneelingPose();
+
+        spawnBurstParticles(coupleRig.position.clone().add(new THREE.Vector3(0, 3.3, -0.8)), 'confetti', 55);
+        unlockMemory('throne');
+        setSubtitle(CONFIG.notes.throne);
+        actionBtnText.textContent = 'Next: Visit the Wishing Well ✨ →';
+        currentActionCompleted = true;
+      } else if (actionType === 'well') {
+        spawnBurstParticles(wellGroup.position.clone().add(new THREE.Vector3(0, 1.4, 0)), 'sparkles', 48);
+        spawnBurstParticles(coupleRig.position.clone().add(new THREE.Vector3(0, 1.6, 0)), 'hearts', 24);
+        unlockMemory('well');
+        setSubtitle(CONFIG.notes.well);
+        actionBtnText.textContent = 'Replay From Beach Walk 🏖️💖';
+        currentActionCompleted = true;
+      }
+    }
+
+    primaryActionBtn.addEventListener('click', () => {
+      ensureAudioStarted();
+      const step = STORY_STEPS[currentStepIndex];
+      if (step.actionType && !currentActionCompleted) performSceneAction(step.actionType);
+      else goToStep(currentStepIndex + 1);
+    });
+
+    stepDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        ensureAudioStarted();
+        goToStep(parseInt(dot.dataset.step, 10));
+      });
+    });
+
+    // ==========================================
+    // 15. KEYBOARD FREE ROAM & SIGNPOST CLICKS
+    // ==========================================
+    const keysPressed = {};
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+      keysPressed[e.code] = true;
+      if (['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+        isFreeRoam = true;
+        isCameraTransitioning = false;
+        if (throneModeActive) resetCharacterPoses();
+        aerialTitle.classList.remove('visible');
+        gateTargetAngle = Math.PI * 0.56;
+      }
+    });
+    window.addEventListener('keyup', (e) => { keysPressed[e.code] = false; });
+    controls.addEventListener('start', () => { isCameraTransitioning = false; });
+
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    const signpostPopup = document.getElementById('signpost-popup');
+
+    renderer.domElement.addEventListener('click', (event) => {
+      pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+      pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+      const hits = raycaster.intersectObjects(signposts, false);
+      if (hits.length > 0) {
+        const { signId, emoji, title } = hits[0].object.userData;
+        document.getElementById('sign-emoji').textContent = emoji;
+        document.getElementById('sign-title').textContent = title;
+        document.getElementById('sign-body').textContent = CONFIG.notes[signId] || '';
+        signpostPopup.classList.add('open');
+        unlockMemory(signId);
+      }
+    });
+
+    document.getElementById('close-sign-btn').addEventListener('click', () => {
+      signpostPopup.classList.remove('open');
+    });
+
+    // ==========================================
+    // 16. MEMORIES & CUSTOMIZATION UI
+    // ==========================================
+    const memoriesCounter = document.getElementById('memories-counter');
+    const memoryListContainer = document.getElementById('memory-list-container');
+    const memoriesModal = document.getElementById('memories-modal');
+
+    function updateMemoriesUI() {
+      const unlockedCount = MEMORIES.filter((m) => m.unlocked).length;
+      memoriesCounter.textContent = String(unlockedCount).padStart(2, '0');
+      memoryListContainer.innerHTML = '';
+      MEMORIES.forEach((m) => {
+        const item = document.createElement('div');
+        item.className = `memory-item ${m.unlocked ? '' : 'locked'}`;
+        item.innerHTML = `
+          <div class="memory-icon">${m.icon}</div>
+          <div class="memory-text">
+            <h4>${m.title} ${m.unlocked ? '✓' : '🔒'}</h4>
+            <p>${m.unlocked ? m.getDesc() : 'Visit this spot in the kingdom to unlock this special Princess Day memory!'}</p>
+          </div>
+        `;
+        memoryListContainer.appendChild(item);
+      });
+    }
+    updateMemoriesUI();
+
+    document.getElementById('open-memories-btn').addEventListener('click', () => {
+      updateMemoriesUI();
+      memoriesModal.classList.add('open');
+    });
+    document.getElementById('close-memories-btn').addEventListener('click', () => {
+      memoriesModal.classList.remove('open');
+    });
+
+    // ==========================================
+    // 17. TOP-RIGHT MUSIC PLAYER ("I LOVE YOU - AKULL" MP3 + MELODY FALLBACK)
+    // ==========================================
+    let audioCtx = null;
+    let isMusicPlaying = false;
+    let synthInterval = null;
+    const songAudio = new Audio();
+    songAudio.loop = true;
+    let hasSongFile = false;
+
+    const musicToggleBtn = document.getElementById('music-toggle-btn');
+    const musicBtnLabel = document.getElementById('music-btn-label');
+
+    // Auto-detect "I Love You" MP3 placed in this folder
+    const SONG_CANDIDATES = ['song.mp3', 'I Love You.mp3', 'i-love-you-akull.mp3'];
+    (async () => {
+      for (const file of SONG_CANDIDATES) {
+        try {
+          const res = await fetch(encodeURI(file), { method: 'HEAD' });
+          if (res.ok) {
+            songAudio.src = encodeURI(file);
+            hasSongFile = true;
+            break;
+          }
+        } catch {}
+      }
+    })();
+
+    const MELODY_NOTES = [
+      523.25, 659.25, 783.99, 880.00, 783.99, 659.25,
+      587.33, 698.46, 880.00, 1046.50, 880.00, 698.46,
+      440.00, 523.25, 659.25, 783.99, 659.25, 523.25,
+      493.88, 587.33, 698.46, 783.99, 659.25, 587.33
+    ];
+    let noteCursor = 0;
+
+    function playMusicBoxNote(freq) {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.exponentialRampToValueAtTime(0.075, now + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0008, now + 1.45);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 1.5);
+    }
+
+    function startSynthFallback() {
+      if (synthInterval) clearInterval(synthInterval);
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      synthInterval = setInterval(() => {
+        if (!isMusicPlaying || hasSongFile) return;
+        playMusicBoxNote(MELODY_NOTES[noteCursor % MELODY_NOTES.length]);
+        noteCursor++;
+      }, 420);
+    }
+
+    function startMusic() {
+      if (isMusicPlaying) return;
+      isMusicPlaying = true;
+      musicToggleBtn.classList.add('active');
+      musicBtnLabel.textContent = 'I Love You • On';
+
+      if (hasSongFile) {
+        songAudio.play().catch(() => {});
+        return;
+      }
+      startSynthFallback();
+    }
+
+    function stopMusic() {
+      isMusicPlaying = false;
+      musicToggleBtn.classList.remove('active');
+      musicBtnLabel.textContent = 'I Love You • Play';
+      if (synthInterval) clearInterval(synthInterval);
+      songAudio.pause();
+    }
+
+    function ensureAudioStarted() {
+      if (!isMusicPlaying) startMusic();
+    }
+
+    musicToggleBtn.addEventListener('click', () => {
+      if (isMusicPlaying) stopMusic(); else startMusic();
+    });
+
+    // ==========================================
+    // 18. ANIMATION LOOP
+    // ==========================================
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = Math.min(clock.getDelta(), 0.1);
+      const elapsed = clock.getElapsedTime();
+
+      oceanMat.uniforms.uTime.value = elapsed;
+      grassMat.uniforms.uTime.value = elapsed;
+
+      leftGatePivot.rotation.y = THREE.MathUtils.lerp(leftGatePivot.rotation.y, -gateTargetAngle, dt * 3.5);
+      rightGatePivot.rotation.y = THREE.MathUtils.lerp(rightGatePivot.rotation.y, gateTargetAngle, dt * 3.5);
+
+      let isMoving = false;
+      if (isFreeRoam) {
+        const moveSpeed = 6.5 * dt;
+        const forward = new THREE.Vector3();
+        camera.getWorldDirection(forward);
+        forward.y = 0;
+        forward.normalize();
+        const right = new THREE.Vector3().crossVectors(forward, new THREE.Vector3(0, 1, 0)).normalize();
+
+        const moveVec = new THREE.Vector3();
+        if (keysPressed['KeyW'] || keysPressed['ArrowUp']) moveVec.add(forward);
+        if (keysPressed['KeyS'] || keysPressed['ArrowDown']) moveVec.sub(forward);
+        if (keysPressed['KeyD'] || keysPressed['ArrowRight']) moveVec.add(right);
+        if (keysPressed['KeyA'] || keysPressed['ArrowLeft']) moveVec.sub(right);
+
+        if (moveVec.lengthSq() > 0.001) {
+          moveVec.normalize().multiplyScalar(moveSpeed);
+          coupleRig.position.add(moveVec);
+          coupleRig.rotation.y = Math.atan2(moveVec.x, moveVec.z);
+          controls.target.add(moveVec);
+          camera.position.add(moveVec);
+          isMoving = true;
+        }
+      } else if (!throneModeActive) {
+        if (coupleRig.position.distanceTo(targetCouplePos) > 0.06) {
+          coupleRig.position.lerp(targetCouplePos, dt * 3.2);
+          isMoving = true;
+        }
+        coupleRig.rotation.y = THREE.MathUtils.lerp(coupleRig.rotation.y, targetCoupleRot, dt * 4.5);
+        if (STORY_STEPS[currentStepIndex]?.walkAnim) isMoving = true;
+      }
+
+      if (!throneModeActive) {
+        if (isMoving) {
+          const walkCycle = Math.sin(elapsed * 8.5) * 0.45;
+          boyLegL.hip.rotation.x = walkCycle;
+          boyLegR.hip.rotation.x = -walkCycle;
+          boyLeftArm.rotation.x = -walkCycle * 0.6;
+          girlRightArm.rotation.x = walkCycle * 0.6;
+          boyGroup.position.y = Math.abs(Math.sin(elapsed * 8.5)) * 0.055;
+          girlGroup.position.y = Math.abs(Math.cos(elapsed * 8.5)) * 0.055;
+          catGroup.position.y = Math.abs(Math.sin(elapsed * 11.0)) * 0.075;
+          catTail.rotation.z = Math.sin(elapsed * 10.0) * 0.32;
+        } else {
+          boyLegL.hip.rotation.x = THREE.MathUtils.lerp(boyLegL.hip.rotation.x, 0, dt * 8);
+          boyLegR.hip.rotation.x = THREE.MathUtils.lerp(boyLegR.hip.rotation.x, 0, dt * 8);
+          boyGroup.position.y = Math.sin(elapsed * 2.5) * 0.02;
+          girlGroup.position.y = Math.sin(elapsed * 2.5 + 0.8) * 0.02;
+          catTail.rotation.z = Math.sin(elapsed * 4.0) * 0.22;
+        }
+      }
+
+      if (dragonFlightTimer > 0) {
+        dragonFlightTimer -= dt;
+        dragonActor.position.y = 1.9 + Math.sin(elapsed * 6.0) * 0.42;
+        dragonActor.rotation.y = Math.sin(elapsed * 2.5) * 0.35;
+        const flap = Math.sin(elapsed * 16.0) * 0.65;
+        leftWingPivot.rotation.z = flap;
+        rightWingPivot.rotation.z = -flap;
+      } else {
+        dragonActor.position.y = THREE.MathUtils.lerp(dragonActor.position.y, 0.98 + Math.sin(elapsed * 2.2) * 0.05, dt * 4);
+        dragonActor.rotation.y = THREE.MathUtils.lerp(dragonActor.rotation.y, 0, dt * 4);
+        leftWingPivot.rotation.z = Math.sin(elapsed * 2.2) * 0.08;
+        rightWingPivot.rotation.z = -Math.sin(elapsed * 2.2) * 0.08;
+      }
+
+      wishOrb.position.y = 1.38 + Math.sin(elapsed * 3.2) * 0.16;
+
+      for (let i = activeParticles.length - 1; i >= 0; i--) {
+        const p = activeParticles[i];
+        p.life += dt;
+        if (p.life >= p.maxLife) {
+          scene.remove(p.mesh);
+          activeParticles.splice(i, 1);
+          continue;
+        }
+        p.mesh.position.addScaledVector(p.vel, dt);
+        p.mesh.rotation.y += dt * 3.0;
+        p.mesh.rotation.x += dt * 2.0;
+        p.mesh.scale.setScalar(Math.max(0.01, 1 - p.life / p.maxLife));
+      }
+
+      if (isCameraTransitioning) {
+        camera.position.lerp(targetCamPos, dt * 3.2);
+        controls.target.lerp(targetLookAt, dt * 3.6);
+        if (camera.position.distanceTo(targetCamPos) < 0.08) isCameraTransitioning = false;
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+  </script>
+</body>
+</html>
